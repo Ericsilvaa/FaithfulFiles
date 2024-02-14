@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es6", "dom"],
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "strict": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "typeRoots": ["./src/types/global.d.ts", "./node_modules/@types"]
+  },
+  "include": ["./src/**/*", "./server.ts"]
+}
