@@ -1,6 +1,6 @@
 # Sistema de Livraria
 
-Este é um projeto de sistema de livraria desenvolvido utilizando Node.js, TypeScript, Joi para validação, Docker e TypeORM.
+Este é um projeto de sistema de livraria desenvolvido utilizando Node.js, TypeScript, Class-Validator para validação, Docker e TypeORM.
 
 ## Descrição
 
