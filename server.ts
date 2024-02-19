@@ -34,32 +34,23 @@ const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
   });
 
 
-  const data = [
-    {
-      user: {
-        username: `erick +  ${Date.now()}`,
-        phone: '85599878',
-        email: `eric${Date.now()}@dev.com`,
-        password_hash: '123456'
-      }, type: EnumContextTypes.activityLog
-    },
-  ]
+  // const data = [
+  //   {
+  //     user: {
+  //       username: `erick +  ${Date.now()}`,
+  //       phone: '85599878',
+  //       email: `eric${Date.now()}@dev.com`,
+  //       password_hash: '123456'
+  //     }, type: EnumContextTypes.activityLog
+  //   },
+  // ]
 
-  for (const { user: { username, password_hash, email }, type } of data) {
-    const context = ContextStrategyTypes[type]
-    await context.connect()
+  const context = ContextStrategyTypes['activityLog']
+  await context.connect()
+  // for (const { user: { username, password_hash, email }, type } of data) {
+  //   console.log("🚀 ~ result:", result)
+  // }
 
-
-    setTimeout(async () => {
-      console.log('execultado')
-      const newUser = new UserEntity(username, password_hash, email)
-      await context.create(newUser)
-    }, 2000)
-
-    console.log(type, context.database.constructor.name)
-    // console.log(await context.find(`erick +  ${Date.now()}`))
-
-  }
 
 })()
 

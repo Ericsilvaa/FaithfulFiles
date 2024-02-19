@@ -11,5 +11,9 @@
     "experimentalDecorators": true,
     "typeRoots": ["./src/types/global.d.ts", "./node_modules/@types"]
   },
-  "include": ["./src/**/*", "./server.ts"]
+  "include": [
+    "./src/**/*",
+    "./server.ts",
+    "tests/src/config/strategies/postgres"
+  ]
 }

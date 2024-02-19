@@ -13,6 +13,7 @@ export default class MongoDBStrategy implements IBaseStrategy {
     console.log(item)
   }
 
+  async create(user: any): Promise<any>;
   async create(item: any) {
     console.log("🚀 ~ MongoDBStrategy ~ create ~ item:", item)
     // return this.dbInstance.save(item)

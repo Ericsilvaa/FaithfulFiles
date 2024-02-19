@@ -14,16 +14,18 @@ export default class PostgresStrategy implements IBaseStrategy {
 
       if (!dbInitialized.isInitialized) throw new Error('Error initial database connection')
 
-      console.log(`💫 ~ [database]: initialized connection`)
       this.db = dbInitialized.getRepository('UserEntity')
+
+      return true
 
     } catch (error) {
       console.log(error)
     }
   }
 
-  async create(user: UserEntity) {
-    return await this.db.save(user)
+  async create<T>(item: T): Promise<T>;
+  async create(item: UserEntity): Promise<UserEntity> {
+    return await this.db.save(item);
   }
 
   async find(query: any) {
