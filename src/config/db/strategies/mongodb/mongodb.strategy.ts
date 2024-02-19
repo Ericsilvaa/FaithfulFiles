@@ -5,18 +5,24 @@ export default class MongoDBStrategy implements IBaseStrategy {
     this.connectionString = connectionString;
   }
 
-  async create(item: any) {
-    console.log("🚀 ~ MongoDBStrategy ~ create ~ item:", item)
-    // return this.dbInstance.save(item)
-  }
-
-
   async connect() {
     console.log('me connectei ao Mongo!!')
   }
 
   async find(item: any) {
     console.log(item)
+  }
+
+  async create(item: any) {
+    console.log("🚀 ~ MongoDBStrategy ~ create ~ item:", item)
+    // return this.dbInstance.save(item)
+  }
+
+  update(id: any, item: any): void {
+    throw new Error("Method not implemented.");
+  }
+  delete(id: any): void {
+    throw new Error("Method not implemented.");
   }
 
 }

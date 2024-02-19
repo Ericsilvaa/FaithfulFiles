@@ -6,16 +6,23 @@ export default class ContextStrategy implements IBaseStrategy {
   }
 
   async connect() {
-    console.log('EXECUTANDO CONTEXT!!')
+    this.database.connect();
   }
 
   async create(item: any): Promise<void> {
-    return item
+    return await this.database.create(item)
   }
 
   async find(item: any): Promise<any> {
-    console.log(item)
+    return await this.database.find(item)
   }
 
+  update(id: any, item: any): void {
+    return this.database.update(id, item)
+  }
+
+  delete(id: any): void {
+    return this.database.delete(id)
+  }
 
 }

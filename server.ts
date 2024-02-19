@@ -1,8 +1,10 @@
 import app from "./src/app";
+import { AppDataSource } from "./src/config/db/dataSource";
 
 import ContextStrategy from "./src/config/db/strategies/base/context.strategy";
 import MongoDBStrategy from "./src/config/db/strategies/mongodb/mongodb.strategy";
 import PostgresStrategy from "./src/config/db/strategies/postgres/postgres.strategy";
+import { UserEntity } from "./src/entities/postgres/user.entity";
 
 enum EnumContextTypes {
   activityLog = "activityLog",
@@ -11,8 +13,7 @@ enum EnumContextTypes {
 
 type ContextDb = typeof mongoDBContext | typeof postgresContext
 
-const connectionPostgres = 'connectionPostgres'
-const postgresContext = new ContextStrategy(new PostgresStrategy(connectionPostgres))
+const postgresContext = new ContextStrategy(new PostgresStrategy(AppDataSource))
 
 
 const connectionMongoose = 'connectionMongoose'
@@ -34,17 +35,29 @@ const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
 
 
   const data = [
-    { name: 'postgres', type: EnumContextTypes.activityLog },
-    { name: 'mongodb', type: EnumContextTypes.transaction }
+    {
+      user: {
+        username: `erick +  ${Date.now()}`,
+        phone: '85599878',
+        email: `eric${Date.now()}@dev.com`,
+        password_hash: '123456'
+      }, type: EnumContextTypes.activityLog
+    },
   ]
 
-  for (const { name, type } of data) {
+  for (const { user: { username, password_hash, email }, type } of data) {
     const context = ContextStrategyTypes[type]
     await context.connect()
-    await context.create({ name: `erick +  ${Date.now()}` })
+
+
+    setTimeout(async () => {
+      console.log('execultado')
+      const newUser = new UserEntity(username, password_hash, email)
+      await context.create(newUser)
+    }, 2000)
 
     console.log(type, context.database.constructor.name)
-    console.log(await context.find(`erick +  ${Date.now()}`))
+    // console.log(await context.find(`erick +  ${Date.now()}`))
 
   }
 
