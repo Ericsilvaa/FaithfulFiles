@@ -1,5 +1,5 @@
 import app from "./src/app";
-import { AppDataSource } from "./src/config/db/dataSource";
+import { dbDataSourceMongo, dbDataSourcePostgres } from "./src/config/db/dataSource";
 
 import ContextStrategy from "./src/config/db/strategies/base/context.strategy";
 import MongoDBStrategy from "./src/config/db/strategies/mongodb/mongodb.strategy";
@@ -12,11 +12,9 @@ enum EnumContextTypes {
 
 type ContextDb = typeof mongoDBContext | typeof postgresContext
 
-const postgresContext = new ContextStrategy(new PostgresStrategy(AppDataSource))
 
-
-const connectionMongoose = 'connectionMongoose'
-const mongoDBContext = new ContextStrategy(new MongoDBStrategy(connectionMongoose))
+const postgresContext = new ContextStrategy(new PostgresStrategy(dbDataSourcePostgres))
+const mongoDBContext = new ContextStrategy(new MongoDBStrategy(dbDataSourceMongo))
 
 const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
   [EnumContextTypes.activityLog]: postgresContext,
@@ -27,6 +25,9 @@ const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
 (async () => {
   const context = ContextStrategyTypes['activityLog']
   await context.connect()
+
+  const ContextDbMongo = ContextStrategyTypes['transaction']
+  await ContextDbMongo.connect()
 
   const PORT = process.env.PORT || "5001";
   app.listen(PORT, () => {

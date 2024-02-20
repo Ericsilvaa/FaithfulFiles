@@ -13,15 +13,19 @@ export default class ContextStrategy implements IBaseStrategy {
     return this.database.create(item)
   }
 
-  async find(item: any): Promise<any> {
-    return await this.database.find(item)
+  async findAll(query: { skip?: number, take?: number }): Promise<any> {
+    return await this.database.findAll(query)
   }
 
-  update(id: any, item: any): void {
+  async findOne(query: any): Promise<any> {
+    return await this.database.findOne(query)
+  }
+
+  async update(id: any, item: any): Promise<any> {
     return this.database.update(id, item)
   }
 
-  delete(id: any): void {
+  async delete(id: number) {
     return this.database.delete(id)
   }
 

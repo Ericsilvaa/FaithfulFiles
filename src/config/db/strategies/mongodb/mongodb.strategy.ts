@@ -1,16 +1,33 @@
+import { DataSource, MongoRepository } from "typeorm";
 import { IBaseStrategy } from "../../interfaces/IBaseSrategy";
+import { BookTransaction } from "../../../../entities/mongodb/bookTransaction.entity";
 
 export default class MongoDBStrategy implements IBaseStrategy {
-  constructor(private connectionString: string) {
-    this.connectionString = connectionString;
+  private db!: MongoRepository<BookTransaction>
+  constructor(private connectionDb: DataSource) {
+    this.connectionDb = connectionDb;
   }
 
   async connect() {
-    console.log('me connectei ao Mongo!!')
+    try {
+      const dbInitialized = await this.connectionDb.initialize()
+
+      if (!dbInitialized.isInitialized) throw new Error('Error initial database connection')
+
+      this.db = dbInitialized.getMongoRepository('BookTransaction')
+      return true
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  async find(item: any) {
-    console.log(item)
+  async findAll(query?: any, skip: number = 0, take: number = 2) {
+    throw new Error("Method not implemented.");
+  }
+
+  async findOne({ query }: { query: any }) {
+    throw new Error("Method not implemented.");
   }
 
   async create(user: any): Promise<any>;

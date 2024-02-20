@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.92% </span>
+                <span class="strong">64.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/26</span>
+                <span class='fraction'>18/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/7</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.92% </span>
+                <span class="strong">64.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/26</span>
+                <span class='fraction'>18/28</span>
             </div>
         
             
@@ -89,31 +89,35 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -126,17 +130,19 @@ class ContextStrategy {
     async connect() {
         return this.database.connect();
     }
-    async create(item) {
-        console.log("🚀 ~ ContextStrategy ~ item:", item);
-        return this.database.create(item);
-    }
-<span class="fstat-no" title="function not covered" >    async find(item) {</span>
-<span class="cstat-no" title="statement not covered" >        return await this.database.find(item);</span>
+<span class="fstat-no" title="function not covered" >    async create(item) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.database.create(item);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="fstat-no" title="function not covered" >    update(id, item) {</span>
+<span class="fstat-no" title="function not covered" >    async findAll(query) {</span>
+<span class="cstat-no" title="statement not covered" >        return await this.database.findAll(query);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="fstat-no" title="function not covered" >    async findOne(query) {</span>
+<span class="cstat-no" title="statement not covered" >        return await this.database.findOne(query);</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="fstat-no" title="function not covered" >    async update(id, item) {</span>
 <span class="cstat-no" title="statement not covered" >        return this.database.update(id, item);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="fstat-no" title="function not covered" >    delete(id) {</span>
+<span class="fstat-no" title="function not covered" >    async delete(id) {</span>
 <span class="cstat-no" title="statement not covered" >        return this.database.delete(id);</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 }
@@ -148,7 +154,7 @@ exports.default = ContextStrategy;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-20T01:13:03.459Z
+                at 2024-02-20T22:50:45.877Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

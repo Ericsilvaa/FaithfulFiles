@@ -1,17 +1,17 @@
-import { DataSource, Repository } from "typeorm";
+import { DataSource, ObjectId, Repository } from "typeorm";
 import { IBaseStrategy } from "../../interfaces/IBaseSrategy";
 import { Book } from "../../../../entities/postgres/book.entity";
 
 
 export default class PostgresStrategy implements IBaseStrategy {
   private db!: Repository<Book>
-  constructor(private connection: DataSource) {
-    this.connection = connection;
+  constructor(private connectionDb: DataSource) {
+    this.connectionDb = connectionDb;
   }
 
   async connect() {
     try {
-      const dbInitialized = await this.connection.initialize()
+      const dbInitialized = await this.connectionDb.initialize()
 
       if (!dbInitialized.isInitialized) throw new Error('Error initial database connection')
 
@@ -29,16 +29,20 @@ export default class PostgresStrategy implements IBaseStrategy {
     return this.db.save(item);
   }
 
-  async find(query: any) {
-    return await this.db.find(query)
+  async findAll(query: any) {
+    return await this.db.find(query);
   }
 
-  async update(id: any, item: any) {
-    throw new Error("Method not implemented.");
+  async findOne(query: any) {
+    return await this.db.findOne({ where: query })
   }
 
-  async delete(id: any) {
-    return await this.db.delete(id)
+  async update(id: number, item: any) {
+    return await this.db.update(id, item)
+  }
+
+  async delete(id: number) {
+    return await this.db.softDelete(id)
   }
 
 }

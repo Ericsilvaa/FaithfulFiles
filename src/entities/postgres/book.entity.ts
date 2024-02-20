@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, DeleteDateColumn } from 'typeorm';
 import { Author } from './author.entity';
 import { Publisher } from './publisher.entity';
 import { IsNotEmpty } from 'class-validator';
@@ -29,6 +29,9 @@ export class Book {
 
   @Column({ default: 0 })
   loan_count: number;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'boolean' })
+  deleted_at?: Boolean | null
 
   constructor(title: string, page_count: number, description: string, available: boolean, loan_count: number) {
     this.title = title;
