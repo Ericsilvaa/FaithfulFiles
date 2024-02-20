@@ -4,7 +4,6 @@ import { AppDataSource } from "./src/config/db/dataSource";
 import ContextStrategy from "./src/config/db/strategies/base/context.strategy";
 import MongoDBStrategy from "./src/config/db/strategies/mongodb/mongodb.strategy";
 import PostgresStrategy from "./src/config/db/strategies/postgres/postgres.strategy";
-import { UserEntity } from "./src/entities/postgres/user.entity";
 
 enum EnumContextTypes {
   activityLog = "activityLog",
@@ -26,7 +25,8 @@ const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
 
 
 (async () => {
-  // conexão com db
+  const context = ContextStrategyTypes['activityLog']
+  await context.connect()
 
   const PORT = process.env.PORT || "5001";
   app.listen(PORT, () => {
@@ -45,8 +45,7 @@ const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
   //   },
   // ]
 
-  const context = ContextStrategyTypes['activityLog']
-  await context.connect()
+
   // for (const { user: { username, password_hash, email }, type } of data) {
   //   console.log("🚀 ~ result:", result)
   // }

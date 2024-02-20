@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for entities/postgres/user.entity.js</title>
+    <title>Code coverage report for entities/postgres/book.entity.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">entities/postgres</a> user.entity.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">entities/postgres</a> book.entity.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.68% </span>
+                <span class="strong">98.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>75/76</span>
+                <span class='fraction'>70/71</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.23% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/13</span>
+                <span class='fraction'>9/12</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.68% </span>
+                <span class="strong">98.59% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>75/76</span>
+                <span class='fraction'>70/71</span>
             </div>
         
             
@@ -134,12 +134,7 @@
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -156,27 +151,22 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -225,72 +215,67 @@ var __decorate = (this &amp;&amp; this.__decorate) || function (decorators, targ
 var __metadata = (this &amp;&amp; this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" &amp;&amp; typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __importDefault = (this &amp;&amp; this.__importDefault) || function (mod) {
-    return (mod &amp;&amp; mod.__esModule) ? mod<span class="branch-0 cbranch-no" title="branch not covered" > : { "default": mod };</span>
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserEntity = void 0;
+exports.Book = void 0;
 const typeorm_1 = require("typeorm");
+const author_entity_1 = require("./author.entity");
+const publisher_entity_1 = require("./publisher.entity");
 const class_validator_1 = require("class-validator");
-const address_entity_1 = __importDefault(require("./address.entity"));
-let UserEntity = class UserEntity {
+let Book = class Book {
     id;
-    username;
-    email;
-    password_hash;
-    token;
-    phone;
-    avatar_url;
-    address;
-    constructor(username, password_hash, email, token, phone) {
-        this.email = email;
-        this.phone = phone;
-        this.username = username;
-        this.password_hash = password_hash;
-        this.token = token;
+    title;
+    page_count;
+    author;
+    description;
+    publisher;
+    available;
+    loan_count;
+    constructor(title, page_count, description, available, loan_count) {
+        this.title = title;
+        this.page_count = page_count;
+        this.description = description;
+        this.available = available;
+        this.loan_count = loan_count;
     }
 };
-exports.UserEntity = UserEntity;
+exports.Book = Book;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], UserEntity.prototype, "id", void 0);
+], Book.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    (0, class_validator_1.MinLength)(2, { message: "Um nome precisa no mínimo 2 caracteres" }),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], UserEntity.prototype, "username", void 0);
+], Book.prototype, "title", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], UserEntity.prototype, "email", void 0);
+    __metadata("design:type", Number)
+], Book.prototype, "page_count", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() =&gt; author_entity_1.Author, { nullable: true }),
+    __metadata("design:type", author_entity_1.Author)
+], Book.prototype, "author", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    (0, class_validator_1.MinLength)(4, { message: "Senha maior que 4" }),
     __metadata("design:type", String)
-], UserEntity.prototype, "password_hash", void 0);
+], Book.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], UserEntity.prototype, "token", void 0);
+    (0, typeorm_1.ManyToOne)(() =&gt; publisher_entity_1.Publisher, { nullable: true }),
+    __metadata("design:type", publisher_entity_1.Publisher)
+], Book.prototype, "publisher", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], UserEntity.prototype, "phone", void 0);
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], Book.prototype, "available", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], UserEntity.prototype, "avatar_url", void 0);
-__decorate([
-    (0, typeorm_1.OneToOne)(() =&gt; address_entity_1.default, { nullable: true, cascade: true, eager: true }),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", address_entity_1.default)
-], UserEntity.prototype, "address", void 0);
-exports.UserEntity = UserEntity = __decorate([
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], Book.prototype, "loan_count", void 0);
+exports.Book = Book = __decorate([
     (0, typeorm_1.Entity)(),
-    __metadata("design:paramtypes", [String, String, String, String, String])
-], UserEntity);
+    __metadata("design:paramtypes", [String, Number, String, Boolean, Number])
+], Book);
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

@@ -1,40 +1,44 @@
 import PostgresStrategy from '../../../../../config/db/strategies/postgres/postgres.strategy';
 import ContextStrategy from "../../../../../config/db/strategies/base/context.strategy";
 import { AppDataSource } from '../../../../../config/db/dataSource';
-import { UserEntity } from '../../../../../entities/postgres/user.entity';
+import { Book } from '../../../../../entities/postgres/book.entity';
+import { Author } from '../../../../../entities/postgres/author.entity';
+import { Publisher } from '../../../../../entities/postgres/publisher.entity';
 
-const context = new ContextStrategy(new PostgresStrategy(AppDataSource))
+const contextdb = new ContextStrategy(new PostgresStrategy(AppDataSource))
 
-const USER_REGISTER = {
-  username: `eric`,
-  phone: '85599878',
-  email: `eric@dev.com`,
-  password_hash: '123456'
+
+const MOCK_BOOK = {
+  title: 'Desiring God',
+  page_count: 384,
+  description: 'Desiring God is a paradigm-shattering work that dramatically alters common perspectives on relating to God.',
+  available: true,
+  loan_count: 0
 }
 
 describe('Postgres Strategy', function () {
-
   it('PostgresSQL Connection', async () => {
-    const result = await context.connect()
+    const result = await contextdb.connect()
     expect(result).toEqual(true)
   })
 
-  it('Cadastrar Usuario', async () => {
-    const { username, email, password_hash } = USER_REGISTER
-    const newUser = new UserEntity(username, password_hash, email)
+  it('Cadastrar Book', async () => {
+    const { title, page_count, description, available, loan_count } = MOCK_BOOK
+
+    const newBook = new Book(title, page_count, description, available, loan_count)
 
     const expected = {
-      username: 'eric',
-      email: 'eric@dev.com',
-      password_hash: '123456',
-      token: null,
-      phone: null,
-      avatar_url: null,
-      address: undefined
+      title: 'Desiring God',
+      page_count: 384,
+      description: 'Desiring God is a paradigm-shattering work that dramatically alters common perspectives on relating to God.',
+      available: true,
+      loan_count: 0
     }
 
-    const result = await context.create(newUser)
+    const result = await contextdb.create(newBook)
+
     Reflect.deleteProperty(result, 'id')
+
 
     expect(result).toEqual(expected)
 

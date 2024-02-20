@@ -10,7 +10,7 @@ export default class ContextStrategy implements IBaseStrategy {
   }
 
   async create<T>(item: T): Promise<T> {
-    return await this.database.create(item)
+    return this.database.create(item)
   }
 
   async find(item: any): Promise<any> {
