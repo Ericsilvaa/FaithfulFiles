@@ -1,4 +1,4 @@
-import { IBaseStrategy } from "../../interfaces/IBaseSrategy";
+import { IBaseStrategy } from "../../db/interfaces/IBaseSrategy";
 
 export default class ContextStrategy implements IBaseStrategy {
   constructor(public database: any) {
