@@ -13,9 +13,8 @@ import { Role } from "../entities/postgres/roles.entity"
 const router = Router()
 
 const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'UserEntity')
-const context = new ContextStrategy(new PostgresStrategy(repository))
-
 const repositoryRole = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Role')
+const context = new ContextStrategy(new PostgresStrategy(repository))
 const userController = new AuthController(context, (repositoryRole as Repository<Role>));
 
 

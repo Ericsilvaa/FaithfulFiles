@@ -2,20 +2,21 @@ import { Router } from "express"
 import PostgresStrategy from "../config/strategies/postgres/postgres.strategy"
 import { dbDataSourcePostgres } from "../config/db/dataSource"
 import ContextStrategy from "../config/strategies/base/context.strategy"
-import AuthController from "../controllers/auth.controller"
+import RoleController from "../controllers/role.controller"
+import Auth from "../middleware/isAuth"
+import { roles } from "../middleware/roles"
 
 
-
-// 'htttp =? /library/books/'
 
 const router = Router()
 
 const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Role')
 const context = new ContextStrategy(new PostgresStrategy(repository))
-const userController = new AuthController(context);
+const roleController = new RoleController(context);
 
+router.use(Auth.isMember, roles(["admin"]))
 
-router.post('/register', userController.registerUser.bind(userController));
-router.post('/login', userController.loginUser.bind(userController))
+router.post('/newRole', roleController.createRole.bind(roleController));
+router.post('/update/:id', roleController.updateRole.bind(roleController))
 
 export default router

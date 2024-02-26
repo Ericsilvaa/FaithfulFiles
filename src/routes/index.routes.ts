@@ -1,6 +1,7 @@
 import express from "express";
 import authRoute from './auth.routes'
 import bookRoute from './book.routes'
+import roleRoute from './role.routes'
 
 import PostgresStrategy from "../config/strategies/postgres/postgres.strategy";
 // import { dbDataSourceMongo, dbDataSourcePostgres } from "../config/db/dataSource";
@@ -15,6 +16,7 @@ const router = (app: express.Router) => {
   }
   dbConnection()
 
+  app.use('/library/auth/role', roleRoute)
   app.use('/library/auth', authRoute)
   app.use('/library/book', bookRoute)
 

@@ -39,7 +39,7 @@ export default class RoleController {
       }
 
       const { affected } = await this.context.update(role_id, newRolePermissions)
-      return res.status(200).json({ message: 'Livro Atualizado', success: affected === 1 ? true : false });
+      return res.status(200).json({ message: 'Role Atualizado', success: affected === 1 ? true : false });
 
     } catch (error) {
       return res
