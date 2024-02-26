@@ -18,7 +18,6 @@ export default class PostgresStrategy {
 
       if (!connection.isInitialized) throw new Error('Error initial database. connection')
 
-      console.log("🚀 ~ PostgresStrategy ~ connect ~ connection:", true)
       return connection
 
     } catch (error) {

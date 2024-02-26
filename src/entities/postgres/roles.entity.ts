@@ -14,10 +14,10 @@ export class Role {
   name: string;
 
   @OneToMany(() => Permissions, permission => permission.role)
-  permissions!: Permissions[];
+  permissions?: Permissions[];
 
   @OneToMany(() => UserEntity, user => user.role)
-  users!: UserEntity[];
+  users?: UserEntity[];
 
 
   constructor(name: string) {

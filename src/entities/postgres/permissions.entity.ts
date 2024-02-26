@@ -12,7 +12,7 @@ export class Permissions {
   name: string;
 
   @ManyToOne(() => Role, role => role.permissions)
-  role!: Role;
+  role?: Role;
 
   constructor(name: string) {
     this.name = name;

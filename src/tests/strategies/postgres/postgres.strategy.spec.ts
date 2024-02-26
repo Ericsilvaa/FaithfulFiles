@@ -1,12 +1,12 @@
 
-import { Book } from '../../../src/entities/postgres/book.entity'
-import { dbDataSourcePostgres } from './../../../src/config/db/dataSource'
-import ContextStrategy from './../../../src/config/strategies/base/context.strategy'
-import PostgresStrategy from './../../../src/config/strategies/postgres/postgres.strategy'
+import { Book } from '../../../entities/postgres/book.entity'
+import { dbDataSourcePostgres } from '../../../config/db/dataSource'
+import ContextStrategy from '../../../config/strategies/base/context.strategy'
+import PostgresStrategy from '../../../config/strategies/postgres/postgres.strategy'
 
 
-
-const contextdb = new ContextStrategy(new PostgresStrategy(dbDataSourcePostgres))
+const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'UserEntity')
+const contextdb = new ContextStrategy(new PostgresStrategy(repository))
 const MOCK_BOOK = {
   title: 'Desiring God',
   page_count: 384,
