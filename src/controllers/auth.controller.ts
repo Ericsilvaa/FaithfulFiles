@@ -15,7 +15,7 @@ export default class AuthController {
     try {
       const password_hash = bcrypty.hashSync(password, 10)
 
-      const emailExists = await this.context.findOne({ email }, { relations: ['role'] });
+      const emailExists = await this.context.findOne({ email });
 
       if (emailExists) res.status(404).json({ message: 'Email já cadastrado, Por favor escolha outro email!' });
 
@@ -55,7 +55,7 @@ export default class AuthController {
     try {
       const { email, password_hash } = <UserEntity>req.body
 
-      const user = await this.context.findOne({ email }, { relations: ['role'] })
+      const user = await this.context.findOne({ email })
       if (!user) return res.status(404).json({ message: 'Email Inválido!' });
 
       if (!bcrypty.compareSync(password_hash, user.password_hash)) {

@@ -42,12 +42,7 @@ export default class PostgresStrategy {
     return await this.repository.find(query)
   }
 
-  async findOne(query: any, { relations }: { relations?: string[] }) {
-    console.log("🚀 ~ PostgresStrategy ~ findOne ~ query:", query)
-
-    if (relations) {
-      return await this.repository.findOne({ where: query, relations })
-    }
+  async findOne(query: any) {
     return await this.repository.findOne({ where: query })
   }
 
