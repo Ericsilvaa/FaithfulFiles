@@ -5,6 +5,7 @@ import BookController from "../controllers/book.controller"
 import PostgresStrategy from "../config/strategies/postgres/postgres.strategy"
 import { dbDataSourcePostgres } from "../config/db/dataSource"
 import ContextStrategy from "../config/strategies/base/context.strategy"
+import Auth from "../middleware/isAuth"
 
 
 
@@ -15,6 +16,7 @@ const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Book
 const context = new ContextStrategy(new PostgresStrategy(repository))
 const bookController = new BookController(context);
 
+router.use(Auth.isMember)
 router.get('/', bookController.getAllBooks.bind(bookController))
 router.get('/:book_id', bookController.getBookById.bind(bookController))
 router.post('/add', bookController.createBook.bind(bookController))

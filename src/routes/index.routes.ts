@@ -3,9 +3,9 @@ import authRoute from './auth.routes'
 import bookRoute from './book.routes'
 
 import PostgresStrategy from "../config/strategies/postgres/postgres.strategy";
-import { dbDataSourceMongo, dbDataSourcePostgres } from "../config/db/dataSource";
-import MongoDBStrategy from "../config/strategies/mongodb/mongodb.strategy";
-import TransactionBookController from "../controllers/transaction.controller";
+// import { dbDataSourceMongo, dbDataSourcePostgres } from "../config/db/dataSource";
+// import MongoDBStrategy from "../config/strategies/mongodb/mongodb.strategy";
+// import TransactionBookController from "../controllers/transaction.controller";
 
 const router = (app: express.Router) => {
 

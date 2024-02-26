@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import TokenValidation from "../validations/token";
+import { JwtPayload, decode } from "jsonwebtoken";
 
 export default class Auth {
   static async isMember(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
-
-
     // try {
     //   if (tokenCookie && !TokenValidation.validateToken(tokenCookie)) throw new Error("Error");
     // } catch (error) {
@@ -16,7 +15,7 @@ export default class Auth {
     // }
 
     if (!authHeader)
-      return res.status(400).json({
+      return res.status(401).json({
         error: true,
         message: "Erro: Necessário realizar login para acessar a página!",
       });
@@ -24,7 +23,7 @@ export default class Auth {
     const [bearer, token] = authHeader.split(" ");
 
     if (!token) {
-      return res.status(403).json({
+      return res.status(401).json({
         error: true,
         message: "Erro: Usuario não autorizado, token incorreto",
       });
@@ -32,6 +31,9 @@ export default class Auth {
 
     try {
       TokenValidation.validateToken(token)
+
+      const { email, username } = decode(token) as JwtPayload
+      req.user = { email, username }
 
       return next();
     } catch (error) {

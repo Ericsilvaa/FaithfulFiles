@@ -1,10 +1,10 @@
-import jwt from "jsonwebtoken";
+import { verify, decode, sign } from "jsonwebtoken";
 
 export default class TokenValidation {
 
   static generateToken = ({ email, username }: { email: string, username: string }) => {
     const secret = process.env.NODE_ENV_JWT_SECRET_KEY!;
-    const timeExpires = "5m";
+    const timeExpires = "2m";
 
     const payload = {
       email,
@@ -15,14 +15,14 @@ export default class TokenValidation {
       expiresIn: timeExpires,
     };
 
-    return jwt.sign(payload, secret, options);
+    return sign(payload, secret, options);
   };
 
 
   static validateToken(token: string) {
     const secret = process.env.NODE_ENV_JWT_SECRET_KEY!;
 
-    return jwt.verify(token, secret);
+    return verify(token, secret);
   };
 }
 

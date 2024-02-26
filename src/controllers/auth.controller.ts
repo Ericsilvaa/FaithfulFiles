@@ -17,8 +17,8 @@ export default class AuthController {
     if (emailExists) res.status(404).json({ message: 'Email já cadastrado, Por favor escolha outro email!' });
 
     const token = TokenValidation.generateToken({ email, username })
-
     const newUser = new UserEntity(username, password_hash, email, token)
+
 
     // necessário realizar middleware
     const errors = await validate(newUser)
@@ -55,7 +55,7 @@ export default class AuthController {
       const token = TokenValidation.generateToken(user)
 
       await this.context.update(user.id, { ...user, token })
-      const userLogado = await this.context.findOne({ email }) as UserEntity
+      const userLogado = { ...user, token }
       Reflect.deleteProperty(userLogado, 'password_hash')
 
       return res.status(200).json({

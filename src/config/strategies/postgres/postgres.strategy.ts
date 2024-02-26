@@ -1,8 +1,9 @@
 import { DataSource, ObjectLiteral, Repository } from "typeorm";
 import { Book } from "../../../entities/postgres/book.entity";
 import { dbDataSourcePostgres } from "../../db/dataSource";
+import { RepositoryString } from "../../db/interfaces/IRepositoryString";
 
-type RepositoryString = 'Book' | 'UserEntity' | 'Author' | 'AddressEntity' | 'Publisher'
+
 
 export default class PostgresStrategy {
   private repository: Repository<ObjectLiteral>;
@@ -15,9 +16,9 @@ export default class PostgresStrategy {
     try {
       const connection = await dbDataSourcePostgres.initialize()
 
-      console.log("🚀 ~ PostgresStrategy ~ connect ~ connection:", connection)
       if (!connection.isInitialized) throw new Error('Error initial database. connection')
 
+      console.log("🚀 ~ PostgresStrategy ~ connect ~ connection:", true)
       return connection
 
     } catch (error) {
