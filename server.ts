@@ -1,4 +1,5 @@
 import app from "./src/app";
+import { dbDataSourceMongo, dbDataSourcePostgres } from "./src/config/db/dataSource";
 
 import ContextStrategy from "./src/config/db/strategies/base/context.strategy";
 import MongoDBStrategy from "./src/config/db/strategies/mongodb/mongodb.strategy";
@@ -11,12 +12,9 @@ enum EnumContextTypes {
 
 type ContextDb = typeof mongoDBContext | typeof postgresContext
 
-const connectionPostgres = 'connectionPostgres'
-const postgresContext = new ContextStrategy(new PostgresStrategy(connectionPostgres))
 
-
-const connectionMongoose = 'connectionMongoose'
-const mongoDBContext = new ContextStrategy(new MongoDBStrategy(connectionMongoose))
+const postgresContext = new ContextStrategy(new PostgresStrategy(dbDataSourcePostgres))
+const mongoDBContext = new ContextStrategy(new MongoDBStrategy(dbDataSourceMongo))
 
 const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
   [EnumContextTypes.activityLog]: postgresContext,
@@ -25,7 +23,11 @@ const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
 
 
 (async () => {
-  // conexão com db
+  const context = ContextStrategyTypes['activityLog']
+  await context.connect()
+
+  const ContextDbMongo = ContextStrategyTypes['transaction']
+  await ContextDbMongo.connect()
 
   const PORT = process.env.PORT || "5001";
   app.listen(PORT, () => {
@@ -33,20 +35,22 @@ const ContextStrategyTypes: Record<EnumContextTypes, ContextDb> = {
   });
 
 
-  const data = [
-    { name: 'postgres', type: EnumContextTypes.activityLog },
-    { name: 'mongodb', type: EnumContextTypes.transaction }
-  ]
+  // const data = [
+  //   {
+  //     user: {
+  //       username: `erick +  ${Date.now()}`,
+  //       phone: '85599878',
+  //       email: `eric${Date.now()}@dev.com`,
+  //       password_hash: '123456'
+  //     }, type: EnumContextTypes.activityLog
+  //   },
+  // ]
 
-  for (const { name, type } of data) {
-    const context = ContextStrategyTypes[type]
-    await context.connect()
-    await context.create({ name: `erick +  ${Date.now()}` })
 
-    console.log(type, context.database.constructor.name)
-    console.log(await context.find(`erick +  ${Date.now()}`))
+  // for (const { user: { username, password_hash, email }, type } of data) {
+  //   console.log("🚀 ~ result:", result)
+  // }
 
-  }
 
 })()
 

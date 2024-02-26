@@ -1,28 +1,26 @@
 version: "3"
 services:
-  app:
-    container_name: bearerchat_app
-    build: .
-    volumes:
-      - .:/app
-    ports:
-      - "5000:5000"
-    env_file:
-      - .env
-    depends_on:
-      - postgres
   postgres:
     image: postgres:14
-    container_name: bearer_db
-    restart: always
+    container_name: faithful_db_postgres
     environment:
-      POSTGRES_DB: bearerchat_db
-      POSTGRES_USER: postgres
+      POSTGRES_DB: faithfulFiles_db_postgres
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: secret
       PGDATA: /var/lib/postgresql/data
     ports:
       - 5432:5432
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo
+    container_name: faithful_db_mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
 volumes:
-  postgres-data:
+  postgres_data:
+  mongodb_data:
