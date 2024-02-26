@@ -1,6 +1,7 @@
 import { DataSource, MongoRepository } from "typeorm";
-import { IBaseStrategy } from "../../interfaces/IBaseSrategy";
-import { BookTransaction } from "../../../../entities/mongodb/bookTransaction.entity";
+import { IBaseStrategy } from "../../db/interfaces/IBaseSrategy";
+import { BookTransaction } from "../../../entities/mongodb/bookTransaction.entity";
+
 
 export default class MongoDBStrategy implements IBaseStrategy {
   private db!: MongoRepository<BookTransaction>
@@ -10,11 +11,12 @@ export default class MongoDBStrategy implements IBaseStrategy {
 
   async connect() {
     try {
-      const dbInitialized = await this.connectionDb.initialize()
+      // const dbInitialized = await this.connectionDb.initialize()
 
-      if (!dbInitialized.isInitialized) throw new Error('Error initial database connection')
+      // if (!dbInitialized.isInitialized) throw new Error('Error initial database connection')
 
-      this.db = dbInitialized.getMongoRepository('BookTransaction')
+      // this.db = dbInitialized.getMongoRepository('BookTransaction')
+      console.log('true')
       return true
 
     } catch (error) {
@@ -39,8 +41,10 @@ export default class MongoDBStrategy implements IBaseStrategy {
   update(id: any, item: any): void {
     throw new Error("Method not implemented.");
   }
+
   delete(id: any): void {
     throw new Error("Method not implemented.");
   }
+
 
 }

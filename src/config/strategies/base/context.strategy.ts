@@ -1,4 +1,4 @@
-import { IBaseStrategy } from "../../interfaces/IBaseSrategy";
+import { IBaseStrategy } from "../../db/interfaces/IBaseSrategy";
 
 export default class ContextStrategy implements IBaseStrategy {
   constructor(public database: any) {
@@ -17,8 +17,9 @@ export default class ContextStrategy implements IBaseStrategy {
     return await this.database.findAll(query)
   }
 
-  async findOne(query: any): Promise<any> {
-    return await this.database.findOne(query)
+  async findOne(query: any, others?: any): Promise<any> {
+
+    return await this.database.findOne(query, others)
   }
 
   async update(id: any, item: any): Promise<any> {

@@ -1,7 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { EnumBrazilianStates } from "../../utils/AddressEnum";
 
-
 @Entity()
 export default class AddressEntity {
   @PrimaryGeneratedColumn()

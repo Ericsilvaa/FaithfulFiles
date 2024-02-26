@@ -1,11 +1,19 @@
-import PostgresStrategy from '../../../../../config/db/strategies/postgres/postgres.strategy';
-import ContextStrategy from "../../../../../config/db/strategies/base/context.strategy";
-import { Book } from '../../../../../entities/postgres/book.entity';
-import { Author } from '../../../../../entities/postgres/author.entity';
-import { Publisher } from '../../../../../entities/postgres/publisher.entity';
-import { dbDataSourcePostgres } from '../../../../../config/db/dataSource';
 
-const contextdb = new ContextStrategy(new PostgresStrategy(dbDataSourcePostgres))
+import { Book } from '../../../entities/postgres/book.entity'
+import { dbDataSourcePostgres } from '../../../config/db/dataSource'
+import ContextStrategy from '../../../config/strategies/base/context.strategy'
+import PostgresStrategy from '../../../config/strategies/postgres/postgres.strategy'
+
+
+const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'UserEntity')
+const contextdb = new ContextStrategy(new PostgresStrategy(repository))
+const MOCK_BOOK = {
+  title: 'Desiring God',
+  page_count: 384,
+  description: 'Desiring God is a paradigm-shattering work that dramatically alters common perspectives on relating to God.',
+  available: true,
+  loan_count: 0
+}
 
 describe('Postgres Strategy', function () {
 
