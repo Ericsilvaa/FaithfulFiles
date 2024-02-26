@@ -17,8 +17,9 @@ export default class ContextStrategy implements IBaseStrategy {
     return await this.database.findAll(query)
   }
 
-  async findOne(query: any): Promise<any> {
-    return await this.database.findOne(query)
+  async findOne(query: any, others?: any): Promise<any> {
+
+    return await this.database.findOne(query, others)
   }
 
   async update(id: any, item: any): Promise<any> {

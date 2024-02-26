@@ -1,14 +1,16 @@
-import { DataSource, ObjectLiteral, Repository } from "typeorm";
+import { DataSource, EntityTarget, ObjectLiteral, Repository } from "typeorm";
 import { Book } from "../../../entities/postgres/book.entity";
 import { dbDataSourcePostgres } from "../../db/dataSource";
-import { RepositoryString } from "../../db/interfaces/IRepositoryString";
+import { RepositoryString, RepositoryStringT, RepositoryStringType } from "../../db/interfaces/IRepositoryString";
 
 
 
 export default class PostgresStrategy {
   private repository: Repository<ObjectLiteral>;
 
-  constructor(repository: Repository<ObjectLiteral>) {
+  constructor(
+    repository: Repository<ObjectLiteral>,
+  ) {
     this.repository = repository
   }
 
@@ -25,9 +27,9 @@ export default class PostgresStrategy {
     }
   }
 
-  static createRepository(connection: DataSource, entity: RepositoryString) {
-    const repository = connection.getRepository(entity)
-    return repository
+  static createRepository<T extends ObjectLiteral>(connection: DataSource, entity: RepositoryString): Repository<T> {
+    const repository = connection.getRepository<T>(entity as EntityTarget<T>);
+    return repository;
   }
 
 
@@ -40,7 +42,12 @@ export default class PostgresStrategy {
     return await this.repository.find(query)
   }
 
-  async findOne(query: any) {
+  async findOne(query: any, { relations }: { relations?: string[] }) {
+    console.log("🚀 ~ PostgresStrategy ~ findOne ~ query:", query)
+
+    if (relations) {
+      return await this.repository.findOne({ where: query, relations })
+    }
     return await this.repository.findOne({ where: query })
   }
 

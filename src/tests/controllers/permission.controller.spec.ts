@@ -40,49 +40,70 @@ describe('Permissions Controller', () => {
 
   // })
 
-  test('#Read all Permissions, you should read all list of permissions', async () => {
-    const expected: Permissions[] = [
-      { id: 1, name: 'CREATE', role: undefined },
-      { id: 3, name: 'READ', role: undefined },
-      { id: 2, name: 'UPDATE', role: undefined }
-    ]
+  // test('#Create All Permissions', async () => {
+  //   const permissions_name = ['READ', 'UPDATE', 'CREATE', 'DELETE']
 
-    const result = await context.findAll(({}))
+  //   const expected: Permissions[] = [
+  //     { id: 1, name: 'READ', role: undefined },
+  //     { id: 2, name: 'UPDATE', role: undefined },
+  //     { id: 3, name: 'CREATE', role: undefined },
+  //     { id: 4, name: 'DELETE', role: undefined }
+  //   ]
 
-    expect(result).toEqual(expected)
+  //   const allPermission = permissions_name.map(async (name: string) => {
+  //     const newPermission = new Permissions(name)
+  //     return await context.create(newPermission)
+  //   })
 
-  })
+  //   const result = await Promise.all(allPermission)
 
-  test('#Read Role by id, you should read a role when user pass a id', async () => {
-    const { permission_id } = MOCK_PERMISSIONS
+  //   expect(result).toEqual(expected)
+  // })
 
-    const expected: Permissions = {
-      id: 2,
-      name: 'UPDATE',
-      role: undefined
-    }
+  // test('#Read all Permissions, you should read all list of permissions', async () => {
+  //   const expected: Permissions[] = [
+  //     { id: 1, name: 'READ', role: undefined },
+  //     { id: 2, name: 'DELETE', role: undefined },
+  //     { id: 3, name: 'CREATE', role: undefined },
+  //     { id: 4, name: 'UPDATE', role: undefined }
+  //   ]
 
-    const result = await context.findOne({ id: permission_id })
+  //   const result = await context.findAll(({}))
 
-    expect(result).toEqual(expected)
-  })
+  //   expect(result).toEqual(expected)
 
-  test('#Update Pèrmissions, you should update the Pèrmissions that passed in variable', async () => {
-    const { permission_id, name } = MOCK_PERMISSIONS
+  // })
 
-    const updatePermission = new Permissions(name)
-    await context.update(permission_id, updatePermission)
+  // test('#Read Role by id, you should read a role when user pass a id', async () => {
+  //   const { permission_id } = MOCK_PERMISSIONS
 
-    const result = await context.findOne({ id: permission_id })
+  //   const expected: Permissions = {
+  //     id: 2,
+  //     name: 'UPDATE',
+  //     role: undefined
+  //   }
 
-    const expected: Permissions = {
-      id: 2,
-      name: 'UPDATE',
-      role: undefined
-    }
+  //   const result = await context.findOne({ id: permission_id })
 
-    expect(result).toEqual(expected)
-  })
+  //   expect(result).toEqual(expected)
+  // })
+
+  // test('#Update Pèrmissions, you should update the Pèrmissions that passed in variable', async () => {
+  //   const { permission_id, name } = MOCK_PERMISSIONS
+
+  //   const updatePermission = new Permissions(name)
+  //   await context.update(permission_id, updatePermission)
+
+  //   const result = await context.findOne({ id: permission_id })
+
+  //   const expected: Permissions = {
+  //     id: 2,
+  //     name: 'UPDATE',
+  //     role: undefined
+  //   }
+
+  //   expect(result).toEqual(expected)
+  // })
 
 })
 

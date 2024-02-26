@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ObjectLiteral } from 'typeorm';
 import { Book } from './book.entity';
 import { IsNotEmpty } from 'class-validator';
 import { Permissions } from './permissions.entity';
@@ -14,7 +14,7 @@ export class Role {
   name: string;
 
   @OneToMany(() => Permissions, permission => permission.role)
-  permissions?: Permissions[];
+  permissions?: ObjectLiteral[];
 
   @OneToMany(() => UserEntity, user => user.role)
   users?: UserEntity[];

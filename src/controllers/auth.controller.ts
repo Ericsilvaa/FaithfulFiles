@@ -4,38 +4,50 @@ import bcrypty from 'bcryptjs'
 import TokenValidation from "../validations/token"
 import { validate } from "class-validator"
 import { Request, Response } from "express"
+import { Role } from "../entities/postgres/roles.entity"
+import { ObjectLiteral, Repository } from "typeorm"
 
 export default class AuthController {
-  constructor(private context: ContextStrategy) { }
+  constructor(private context: ContextStrategy, private repositoryRole?: Repository<Role>) { }
 
   async registerUser(req: Request, res: Response) {
     const { email, username, password_hash: password } = <UserEntity>req.body
+    try {
+      const password_hash = bcrypty.hashSync(password, 10)
 
-    const password_hash = bcrypty.hashSync(password, 10)
+      const emailExists = await this.context.findOne({ email }, { relations: ['role'] });
 
-    const emailExists = await this.context.findOne({ email });
-    if (emailExists) res.status(404).json({ message: 'Email já cadastrado, Por favor escolha outro email!' });
+      if (emailExists) res.status(404).json({ message: 'Email já cadastrado, Por favor escolha outro email!' });
 
-    const token = TokenValidation.generateToken({ email, username })
-    const newUser = new UserEntity(username, password_hash, email, token)
+      const token = TokenValidation.generateToken({ email, username })
+      const user_role = await this.repositoryRole?.findOne({ where: { name: 'admin' } }) as Role
 
+      const newUser = new UserEntity(username, password_hash, email, user_role, token)
 
-    // necessário realizar middleware
-    const errors = await validate(newUser)
+      // necessário realizar middleware
+      const errors = await validate(newUser)
 
-    if (errors.length !== 0) return res.status(400).json(errors.map(err => {
-      const [[validation, message]] = Object.entries({ ...err.constraints })
+      if (errors.length !== 0) {
+        return res.status(400).json(errors.map(err => {
+          const [[validation, message]] = Object.entries({ ...err.constraints })
 
-      return {
-        type_error: validation,
-        field_error: err.property,
-        message_error: message
+          return {
+            type_error: validation,
+            field_error: err.property,
+            message_error: message
+          }
+        }))
       }
-    }))
 
-    await this.context.create(newUser)
 
-    return res.status(201).json({ success: true, message: 'Usúario criado com sucesso!' })
+      await this.context.create(newUser)
+
+      return res.status(201).json({ success: true, message: 'Usúario criado com sucesso!' })
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error, message: 'deu ruim!' });
+    }
   }
 
 
@@ -43,7 +55,7 @@ export default class AuthController {
     try {
       const { email, password_hash } = <UserEntity>req.body
 
-      const user = await this.context.findOne({ email })
+      const user = await this.context.findOne({ email }, { relations: ['role'] })
       if (!user) return res.status(404).json({ message: 'Email Inválido!' });
 
       if (!bcrypty.compareSync(password_hash, user.password_hash)) {
