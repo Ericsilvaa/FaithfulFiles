@@ -24,7 +24,7 @@ export class Book {
   @ManyToOne(() => Publisher, { nullable: true })
   publisher?: Publisher;
 
-  @Column({ default: true })
+  @Column()
   available: boolean;
 
   @Column({ default: 0 })

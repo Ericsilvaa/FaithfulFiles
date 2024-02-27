@@ -1,12 +1,16 @@
 import { DataSource, MongoRepository } from "typeorm";
 import { IBaseStrategy } from "../../db/interfaces/IBaseSrategy";
 import { BookTransaction } from "../../../entities/mongodb/bookTransaction.entity";
+import { Book } from "../../../entities/postgres/book.entity";
 
 
 export default class MongoDBStrategy implements IBaseStrategy {
   private db!: MongoRepository<BookTransaction>
   constructor(private connectionDb: DataSource) {
     this.connectionDb = connectionDb;
+  }
+  findAllByGenerics<T extends keyof Book>(field: T, value: Book[T]): Promise<T> {
+    throw new Error("Method not implemented.");
   }
 
 

@@ -1,7 +1,7 @@
-import { DataSource, EntityTarget, ObjectLiteral, Repository } from "typeorm";
+import { DataSource, EntityTarget, ILike, Like, ObjectLiteral, Repository, UpdateResult } from "typeorm";
 import { Book } from "../../../entities/postgres/book.entity";
 import { dbDataSourcePostgres } from "../../db/dataSource";
-import { RepositoryString, RepositoryStringT, RepositoryStringType } from "../../db/interfaces/IRepositoryString";
+import { RepositoryString } from "../../db/interfaces/IRepositoryString";
 
 
 
@@ -46,16 +46,23 @@ export default class PostgresStrategy {
     return await this.repository.find(query)
   }
 
-  async findAndCount(query: any) {
-    console.log("🚀 ~ PostgresStrategy ~ findAndCount ~ query:", query)
-    return await this.repository.findAndCount(query)
-  }
 
   async findOne(query: any) {
     return await this.repository.findOne({ where: query })
   }
 
-  async update(id: number, item: any) {
+  async findAndCount(query: any) {
+    return await this.repository.findAndCount(query)
+  }
+
+  async findAllByGenerics<T extends keyof Book>(field: T, value: Book[T]): Promise<ObjectLiteral[]> {
+    const normalizeValue = field === 'available' ? { [field]: Boolean(value) } : { [field]: ILike(`%${value}%`) }
+
+    const result = await this.repository.find({ where: normalizeValue })
+    return result
+  }
+
+  async update(id: number, item: any): Promise<UpdateResult> {
     return await this.repository.update(id, item)
   }
 
@@ -81,3 +88,4 @@ export default class PostgresStrategy {
   // })
 
 }
+
