@@ -5,14 +5,6 @@ import { JwtPayload, decode } from "jsonwebtoken";
 export default class Auth {
   static async isMember(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
-    // try {
-    //   if (tokenCookie && !TokenValidation.validateToken(tokenCookie)) throw new Error("Error");
-    // } catch (error) {
-    //   return res.status(403).json({
-    //     error: true,
-    //     message: "Token invalido, faça login novamente!",
-    //   });
-    // }
 
     if (!authHeader)
       return res.status(401).json({
