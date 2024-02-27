@@ -40,4 +40,14 @@ export class Book {
     this.available = available;
     this.loan_count = loan_count;
   }
+
+  static createBook(book: Book): Book {
+    return new Book(
+      book.title,
+      book.page_count,
+      book.description,
+      book.available,
+      book.loan_count
+    );
+  }
 }

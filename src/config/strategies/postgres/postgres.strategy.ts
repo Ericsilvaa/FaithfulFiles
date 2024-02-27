@@ -33,13 +33,22 @@ export default class PostgresStrategy {
   }
 
 
-  async create<T>(item: T): Promise<T>;
-  async create(item: Book): Promise<Book> {
+  async create(item: any) {
+    this.repository.create(item);
+  }
+
+  async save<T>(item: T): Promise<T>;
+  async save(item: Book): Promise<Book> {
     return this.repository.save(item);
   }
 
   async findAll(query: any) {
     return await this.repository.find(query)
+  }
+
+  async findAndCount(query: any) {
+    console.log("🚀 ~ PostgresStrategy ~ findAndCount ~ query:", query)
+    return await this.repository.findAndCount(query)
   }
 
   async findOne(query: any) {

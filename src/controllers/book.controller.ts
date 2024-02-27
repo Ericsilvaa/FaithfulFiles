@@ -44,7 +44,7 @@ export default class BookController {
       if (!book_id) {
         const newBook = new Book(title, page_count, description, available, loan_count);
 
-        this.context.create(newBook)
+        this.context.save(newBook)
 
         return res.status(201).json({ message: 'Livro criado com sucesso' });
       }

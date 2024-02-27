@@ -40,7 +40,7 @@ export default class AuthController {
       }
 
 
-      await this.context.create(newUser)
+      await this.context.save(newUser)
 
       return res.status(201).json({ success: true, message: 'Usúario criado com sucesso!' })
     } catch (error) {
