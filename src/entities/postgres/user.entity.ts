@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  ObjectLiteral,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -40,13 +39,15 @@ export class UserEntity {
   @Column({ nullable: true })
   avatar_url?: string;
 
-  @ManyToOne(() => Role, role => role.users) // Define a relação muitos para um
+  @ManyToOne(() => Role, role => role.users)
   @JoinColumn()
-  role: Role; // Adiciona uma propriedade role na entidade UserEntity
+  role: Role;
+
 
   @OneToOne(() => AddressEntity, { nullable: true, cascade: true, eager: true })
   @JoinColumn()
   address?: AddressEntity;
+
 
 
   constructor(
@@ -61,5 +62,15 @@ export class UserEntity {
     this.email = email;
     this.role = role;
     this.token = token;
+  }
+
+  static createUser(user: UserEntity): UserEntity {
+    return new UserEntity(
+      user.username,
+      user.password_hash,
+      user.email,
+      user.role,
+      user.token,
+    );
   }
 }

@@ -9,6 +9,7 @@ export default class MongoDBStrategy implements IBaseStrategy {
     this.connectionDb = connectionDb;
   }
 
+
   async connect() {
     try {
       // const dbInitialized = await this.connectionDb.initialize()
@@ -32,9 +33,18 @@ export default class MongoDBStrategy implements IBaseStrategy {
     throw new Error("Method not implemented.");
   }
 
-  async create(user: any): Promise<any>;
-  async create(item: any) {
-    console.log("🚀 ~ MongoDBStrategy ~ create ~ item:", item)
+  create<T>(item: T): T {
+    throw new Error("Method not implemented.");
+  }
+
+  findAndCount({ relations }: { relations: string[]; }): void {
+    throw new Error("Method not implemented.");
+  }
+
+
+  async save(user: any): Promise<any>;
+  async save(item: any) {
+    console.log("🚀 ~ MongoDBStrategy ~ save ~ item:", item)
     // return this.dbInstance.save(item)
   }
 

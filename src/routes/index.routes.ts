@@ -1,12 +1,11 @@
 import express from "express";
-import authRoute from './auth.routes'
-import bookRoute from './book.routes'
-import roleRoute from './role.routes'
+import AuthRoute from './auth.routes'
+import BookRoute from './book.routes'
+import RoleRoute from './role.routes'
+import AdminRoute from './admin.routes'
 
 import PostgresStrategy from "../config/strategies/postgres/postgres.strategy";
-// import { dbDataSourceMongo, dbDataSourcePostgres } from "../config/db/dataSource";
-// import MongoDBStrategy from "../config/strategies/mongodb/mongodb.strategy";
-// import TransactionBookController from "../controllers/transaction.controller";
+
 
 const router = (app: express.Router) => {
 
@@ -16,9 +15,10 @@ const router = (app: express.Router) => {
   }
   dbConnection()
 
-  app.use('/library/auth/role', roleRoute)
-  app.use('/library/auth', authRoute)
-  app.use('/library/book', bookRoute)
+  app.use('/library/auth/role', RoleRoute)
+  app.use('/library/admin', AdminRoute)
+  app.use('/library/auth', AuthRoute)
+  app.use('/library/book', BookRoute)
 
 
 }
