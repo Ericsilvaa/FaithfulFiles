@@ -14,7 +14,7 @@ export default class MongoDBStrategy implements IBaseStrategy {
   }
 
 
-  async connect() {
+  static async connect() {
     try {
       // const dbInitialized = await this.connectionDb.initialize()
 
