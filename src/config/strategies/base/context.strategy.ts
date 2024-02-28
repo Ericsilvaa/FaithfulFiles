@@ -10,6 +10,11 @@ export default class ContextStrategy implements IBaseStrategy {
     return this.database.connect();
   }
 
+  async disconnect() {
+    return this.database.disconnect();
+  }
+
+
   create(item: any) {
     return this.database.create(item)
   }

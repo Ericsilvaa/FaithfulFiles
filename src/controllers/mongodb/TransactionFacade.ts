@@ -1,12 +1,14 @@
+import { DataSource, ObjectLiteral } from "typeorm";
+import ContextStrategy from "../../config/strategies/base/context.strategy";
 import TransactionBuilder from "./TransactionBuilder";
 
 export default class TransactionFacade {
-  static Transaction(user: any, book: any, db: any) {
-    const transactionBuilder = new TransactionBuilder()
-      .createRepository({})
+  static async Transaction(user: ObjectLiteral, book: ObjectLiteral) {
+    return new TransactionBuilder()
       .setUser(user)
       .setBook(book)
-      .generateTransactionId()
+      .startDate()
+      .endDate()
       .build()
   }
 }

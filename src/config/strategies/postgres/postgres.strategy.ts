@@ -71,21 +71,7 @@ export default class PostgresStrategy {
   }
 
 
-  // async checktUserAndBookExist(userId: any, bookId: any) {
-  //   const [user, book] = await Promise.all([
-  //     await this.repositoryUser.findOne({ where: { id: userId } }),
-  //     await this.repository.findOne({ where: { id: bookId } })
-  //   ])
 
-  //   return { user, book }
-  // }
-
-  // this.repositoryBook = dbInitialized.getRepository('Book')
-  // this.UserEntity = dbInitialized.getRepository('UserEntity')
-
-  // this.entityRepository.forEach((entity) => {
-  //   (PostgresStrategy.prototype as any)[entity] = dbInitialized.getRepository(entity)
-  // })
 
 }
 

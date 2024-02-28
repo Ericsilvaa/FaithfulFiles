@@ -1,5 +1,5 @@
 
-import { Entity, ObjectIdColumn, ObjectId, Column } from 'typeorm';
+import { Entity, ObjectIdColumn, ObjectId, Column, ObjectLiteral, Transaction } from 'typeorm';
 
 @Entity()
 export class BookTransaction {
@@ -7,10 +7,10 @@ export class BookTransaction {
   _id!: ObjectId;
 
   @Column()
-  userId: string;
+  user: ObjectLiteral;
 
   @Column()
-  bookId: string;
+  book: ObjectLiteral;
 
   @Column()
   startDate: Date;
@@ -19,13 +19,23 @@ export class BookTransaction {
   endDate: Date;
 
   @Column()
-  returned: boolean;
+  returned?: boolean;
 
-  constructor(userId: string, bookId: string, startDate: Date, endDate: Date, returned: boolean) {
-    this.userId = userId;
-    this.bookId = bookId;
+  constructor(user: ObjectLiteral, book: ObjectLiteral, startDate: Date, endDate: Date, returned?: boolean) {
+    this.user = user;
+    this.book = book;
     this.startDate = startDate;
     this.endDate = endDate;
     this.returned = returned;
+  }
+
+  static createBookTransaction(transaction: ObjectLiteral): BookTransaction {
+    return new BookTransaction(
+      transaction.user,
+      transaction.book,
+      transaction.startDate,
+      transaction.endDate,
+      transaction.returned,
+    );
   }
 }

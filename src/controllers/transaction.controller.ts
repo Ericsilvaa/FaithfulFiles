@@ -1,7 +1,10 @@
-import { Repository } from "typeorm"
+import { DataSource, Repository } from "typeorm"
 import { BookTransaction } from "../entities/mongodb/bookTransaction.entity"
 import { Request, Response } from "express"
 import TransactionFacade from "./mongodb/TransactionFacade"
+import { dbDataSourceMongo } from "../config/db/dataSource"
+import ContextStrategy from "../config/strategies/base/context.strategy"
+import TransactionDb from "../decorators/transaction.decorator"
 
 type TBookTransaction = Omit<BookTransaction, 'id'>
 type TBookData = {
@@ -12,77 +15,74 @@ type TBookData = {
 
 export default class TransactionBookController {
 
-  constructor(private postgresDb: any) { }
-
-
-  private async connect() {
-    // await this.postgresStrategy.connect()
-    // await this.mongoDBStrategy.connect()
-  }
+  constructor(private postgresDb: DataSource, private mongoDb: ContextStrategy) { }
 
   private createTransaction(data: TBookTransaction) {
 
   }
-
-  async createConnection() {
-    await this.connect()
+  // @TransactionDb
+  async getAllTransation(req: Request, res: Response) {
+    try {
+      await this.mongoDb.connect()
+      const transactions = await this.mongoDb.findAll({})
+      await this.mongoDb.disconnect()
+      return res.status(200).json(transactions);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error, message: 'drop on catch' });
+    }
   }
 
+  // decorator
+  // @TransactionDb
   async createBookTransaction(req: Request, res: Response) {
     // url: /books/transactions?userId=1&bookId=2
     const { userId, bookId } = req.query
 
-
     try {
-      const transaction = TransactionFacade.Transaction('user', 'book,' 'mongoConncation')
+      const { user, book } = await this.checktUserAndBookExist(Number(userId), Number(bookId))
 
-      // const { user, book } = await this.postgresStrategy.checktUserAndBookExist(userId, bookId)
+      if (user && book) {
+        if (book.available === true) {
+          const transaction = await TransactionFacade.Transaction(user, book)
 
-      // if (user && book) {
-      //   if (book.available === true) {
-      // 1. crio uma entity de transaction
-      const newTransaction = BookTransaction
-      // 2. crio uma transaction
-      // 3. atualizo os dados do livro
-    }
-        // retornar que o livro está indisponivel
+          await this.mongoDb.connect()
+          const newTransaction = await this.mongoDb.save(transaction)
+          await this.mongoDb.disconnect()
+
+          if (!transaction) {
+            res.end('Transaction Failed')
+          }
+
+          res.status(200).json({ success: true, data: newTransaction, transaction_id: newTransaction._id })
+        } else {
+          res.send('Livro está indisponivel no momento!')
+        }
       }
-  // retorno que deu não encontrado!
 
-} catch (error) { }
-
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error, message: 'drop on catch' });
+    }
   }
 
 
-  // transform data that we received
+  private async checktUserAndBookExist(userId: number, bookId: number) {
+    const [user, book] = await Promise.all([
+      await this.postgresDb.getRepository('UserEntity').findOne({ where: { id: userId } }),
+      await this.postgresDb.getRepository('Book').findOne({ where: { id: bookId } })
+    ])
 
-  // necessary connection with database of mongodb
 
-  // return transaction completed
-
-  // return this
-  // }
+    return { user, book }
+  }
 
 }
-
 
 // receive data: userId and bookID
 // verify if user exists in database
 // verify if book exists and be available in database
 
 
-// async checktUserAndBookExist(userId: any, bookId: any) {
-//   const [user, book] = await Promise.all([
-//     await this.repositoryUser.findOne({ where: { id: userId } }),
-//     await this.repository.findOne({ where: { id: bookId } })
-//   ])
-
-//   return { user, book }
-// }
-
-// this.repositoryBook = dbInitialized.getRepository('Book')
-// this.UserEntity = dbInitialized.getRepository('UserEntity')
-
-// this.entityRepository.forEach((entity) => {
-//   (PostgresStrategy.prototype as any)[entity] = dbInitialized.getRepository(entity)
-// })

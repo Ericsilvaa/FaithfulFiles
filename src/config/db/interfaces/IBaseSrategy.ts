@@ -2,7 +2,8 @@ import { Book } from "../../../entities/postgres/book.entity"
 
 
 export interface IBaseStrategy {
-  // connect(): void
+  connect(): void
+  disconnect(): void
   create<T>(item: T): T
   save<T>(item: T): Promise<T>
   findOne({ query }: any): void
