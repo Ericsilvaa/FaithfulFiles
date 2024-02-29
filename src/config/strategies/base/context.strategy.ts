@@ -1,3 +1,4 @@
+import { Book } from "../../../entities/postgres/book.entity";
 import { IBaseStrategy } from "../../db/interfaces/IBaseSrategy";
 
 export default class ContextStrategy implements IBaseStrategy {
@@ -8,6 +9,11 @@ export default class ContextStrategy implements IBaseStrategy {
   async connect() {
     return this.database.connect();
   }
+
+  async disconnect() {
+    return this.database.disconnect();
+  }
+
 
   create(item: any) {
     return this.database.create(item)
@@ -26,6 +32,10 @@ export default class ContextStrategy implements IBaseStrategy {
 
   async findAndCount(query: { relations: string[] }): Promise<any> {
     return await this.database.findAndCount(query)
+  }
+
+  async findAllByGenerics<T extends keyof Book>(field: T, value: Book[T]) {
+    return await this.database.findAllByGenerics(field, value)
   }
 
   async update(id: any, item: any): Promise<any> {

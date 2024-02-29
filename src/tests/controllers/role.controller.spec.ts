@@ -28,17 +28,22 @@ describe('Role Controller', () => {
   })
 
   // test('#Create Role, you should create a new role', async () => {
-  //   const role = 'owner'
-
-  //   const expected: Role = {
-  //     id: 3,
-  //     name: 'owner',
+  //   const role = {
+  //     id: 0,
+  //     name: 'default',
   //     permissions: undefined,
-  //     users: undefined,
+  //     users: []
   //   }
 
-  //   const newRole = new Role(role)
-  //   const result = await context.create(newRole)
+  //   const expected: Role = {
+  //     id: 2,
+  //     name: 'default',
+  //     permissions: undefined,
+  //     users: []
+  //   }
+
+  //   const newRole = Role.createRole(role)
+  //   const result = await context.save(newRole)
 
 
   //   expect(result).toEqual(expected)

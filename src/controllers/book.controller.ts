@@ -67,5 +67,20 @@ export default class BookController {
 
   }
 
+  async getBookByFilters(req: Request, res: Response) {
+    const { campo, valor } = req.query
+    console.log("🚀 ~ BookController ~ getBookByFilters ~ valor:", valor)
+
+    try {
+      const listBooks = await this.context.findAllByGenerics(campo as keyof Book, valor as string)
+
+      return res.status(200).json(listBooks)
+    } catch (error) {
+      return res.status(400).json({ message: 'error meu fi' })
+    }
+
+
+  }
+
 
 }

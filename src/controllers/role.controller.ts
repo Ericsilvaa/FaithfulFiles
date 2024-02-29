@@ -10,10 +10,10 @@ export default class RoleController {
   async createRole(req: Request, res: Response) {
     const { role } = req.body
     try {
-      const roleName = await this.context.findOne({ name: role })
-      if (roleName) res.status(401).json({ message: 'Regra já cadastrada!' });
+      const roleEntity = await this.context.findOne({ name: role })
+      if (roleEntity) res.status(401).json({ message: 'Regra já cadastrada!' });
 
-      const newRoleUser = new Role(role)
+      const newRoleUser = Role.createRole(roleEntity)
       await this.context.create(newRoleUser)
 
       return res.status(201).json({ success: true, message: 'Regra criada com sucesso!' })

@@ -20,9 +20,12 @@ export default class AuthController {
       if (emailExists) res.status(404).json({ message: 'Email já cadastrado, Por favor escolha outro email!' });
 
       const token = TokenValidation.generateToken({ email, username })
-      const user_role = await this.repositoryRole?.findOne({ where: { name: 'default' } }) as Role
+      const role = await this.repositoryRole?.findOne({ where: { name: 'admin' } }) as Role
 
-      const newUser = new UserEntity(username, password_hash, email, user_role, token)
+      const newUser = UserEntity.createUser({
+        id: 0,
+        email, username, password_hash, token, role,
+      })
 
       // necessário realizar middleware
       const errors = await validate(newUser)
