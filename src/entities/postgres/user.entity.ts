@@ -4,13 +4,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { IsEmail, MinLength } from "class-validator";
-import AddressEntity from "./address.entity";
 import { Role } from "./roles.entity";
+import { EnumBrazilianStates } from "../../utils/AddressEnum";
+import { ObjectId } from "mongodb";
 
 
 @Entity()
@@ -39,14 +39,27 @@ export class UserEntity {
   @Column({ nullable: true })
   avatar_url?: string;
 
+  @Column({ type: 'json', nullable: true, default: { account: 0 } })
+  transactions?: { account: number, current_transaction: ObjectId }
+
   @ManyToOne(() => Role, role => role.users)
   @JoinColumn()
   role: Role;
 
+  @Column({ type: 'json', nullable: true, })
+  address?: {
+    cep: string;
+    logradouro: string;
+    bairro: string;
+    localidade: string;
+    complemento?: string;
+    uf: EnumBrazilianStates;
+    ibge?: string;
+    gia?: string;
+    ddd?: string;
+    siafi?: string;
+  }
 
-  @OneToOne(() => AddressEntity, { nullable: true, cascade: true, eager: true })
-  @JoinColumn()
-  address?: AddressEntity;
 
 
 
@@ -56,12 +69,27 @@ export class UserEntity {
     email: string,
     role: Role,
     token: string,
+    address?: {
+      cep: string;
+      logradouro: string;
+      bairro: string;
+      localidade: string;
+      complemento?: string;
+      uf: EnumBrazilianStates;
+      ibge?: string;
+      gia?: string;
+      ddd?: string;
+      siafi?: string;
+    },
+    transactions?: { account: number, current_transaction: ObjectId }
   ) {
     this.username = username;
     this.password_hash = password_hash;
     this.email = email;
     this.role = role;
     this.token = token;
+    this.address = address;
+    this.transactions = transactions;
   }
 
   static createUser(user: UserEntity): UserEntity {
@@ -71,6 +99,8 @@ export class UserEntity {
       user.email,
       user.role,
       user.token,
+      user.address,
+      user.transactions
     );
   }
 }

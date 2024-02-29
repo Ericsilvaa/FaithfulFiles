@@ -17,10 +17,18 @@ export class Role {
   permissions?: ObjectLiteral[];
 
   @OneToMany(() => UserEntity, user => user.role)
-  users!: UserEntity[];
+  users: UserEntity[] = [];
 
 
-  constructor(name: string) {
+  constructor(name: string, users: UserEntity[]) {
     this.name = name;
+    this.users = users
+  }
+
+  static createRole(role: Role): Role {
+    return new Role(
+      role.name,
+      role.users
+    );
   }
 }
