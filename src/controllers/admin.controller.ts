@@ -3,6 +3,7 @@ import ContextStrategy from "../config/strategies/base/context.strategy";
 import { Role } from "../entities/postgres/roles.entity";
 import { Request, Response, response } from "express";
 import { UserEntity } from "../entities/postgres/user.entity";
+import { newFormatUsers } from "../utils/newFormartUsers";
 
 export default class AdminController {
   constructor(private context: ContextStrategy, private repositoryRole?: Repository<Role>) { }
@@ -11,24 +12,18 @@ export default class AdminController {
     try {
       const [allUsers, count]: [UserEntity[], number] = await this.context.findAndCount({ relations: ['role'] })
 
-      const newFormatUsers = allUsers.map(user => ({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role.name
-      }))
+      const { users_admin, users_default } = newFormatUsers(allUsers)
 
       return res.status(200).json({
-        users_admin: newFormatUsers.filter(user => user.role === 'admin'),
-        users_default: newFormatUsers.filter(user => user.role === 'default'),
+        users_admin,
+        users_default,
         total_users: count
       })
 
 
     } catch (error) {
       return res
-        .status(500)
-        .json({ error, message: 'deu ruim!' });
+        .writeHead(500)
     }
   }
 

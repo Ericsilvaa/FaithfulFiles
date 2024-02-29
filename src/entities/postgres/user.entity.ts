@@ -9,7 +9,7 @@ import {
 
 import { IsEmail, MinLength } from "class-validator";
 import { Role } from "./roles.entity";
-import { EnumBrazilianStates } from "../../utils/AddressEnum";
+import { EnumBrazilianStates } from "../../utils/enums/AddressEnum";
 import { ObjectId } from "mongodb";
 
 
