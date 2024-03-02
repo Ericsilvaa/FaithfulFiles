@@ -2,6 +2,7 @@
   "compilerOptions": {
     "lib": ["es5", "es6", "dom"],
     "moduleResolution": "node",
+    "removeComments": false,
     "module": "CommonJS",
     "target": "ESNext",
     "esModuleInterop": true,

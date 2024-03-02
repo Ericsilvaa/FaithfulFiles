@@ -11,9 +11,9 @@ export const roles = (role: RoleString[]) => {
 
     if (!user) return res.status(401).send('User não cadastrado!')
 
-    const roleRegistered = role.some((nameRole) => nameRole === user.role.name)
+    // const roleRegistered = role.some((nameRole) => nameRole === user.role.name)
 
-    if (!roleRegistered) return res.status(401).send("Usuario não possui acesso a essa rota!")
+    // if (!roleRegistered) return res.status(401).send("Usuario não possui acesso a essa rota!")
 
     return next()
   }

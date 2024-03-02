@@ -3,84 +3,151 @@ import ContextStrategy from "../config/strategies/base/context.strategy";
 import { Book } from "../entities/postgres/book.entity";
 
 export default class BookController {
-  constructor(private context: ContextStrategy) { }
+  constructor(
+    private context: ContextStrategy,
+    private repositoryAuthor: any,
+    private repositoryPublisher: any
+  ) { }
 
   async getBookById(req: Request, res: Response) {
-    const { book_id } = req.params
+    const { book_id } = req.params;
 
     try {
-      const book = await this.context.findOne({ id: Number(book_id) })
+      const book = await this.context.findOne({ id: Number(book_id) });
 
       if (book) {
         return res.status(200).json(book);
       }
 
-      return res.status(401).send('Livro não encontrado!')
-
+      return res.status(401).send("Livro não encontrado!");
     } catch (error) {
-      return res
-        .status(500)
-        .json({ message: 'drop on catch' });
+      return res.status(500).json({ message: "drop on catch" });
     }
   }
 
   async getAllBooks(req: Request, res: Response) {
     try {
-      const books = await this.context.findAll({})
+      const books = await this.context.findAll({ relations: ['author'] });
       return res.status(200).json(books);
     } catch (error) {
-      return res
-        .status(500)
-        .json({ error, message: 'drop on catch' });
+      return res.status(500).json({ error, message: "drop on catch" });
     }
   }
-
 
   async createBook(req: Request, res: Response) {
-    const { book_id } = req.params
-    const { title, page_count, description, available, loan_count } = <Book>req.body;
+    const [_, pathname] = req.path.split("/");
+
+    const { book_id: id } = req.params;
+    const book = <Book>req.body;
 
     try {
-      if (!book_id) {
-        const newBook = new Book(title, page_count, description, available, loan_count);
+      if (pathname === "add") {
+        const isBookExist = await this.context.findOne({ title: book.title });
 
-        this.context.save(newBook)
+        if (isBookExist)
+          return res.status(404).json({ message: "O livro já existe" });
 
-        return res.status(201).json({ message: 'Livro criado com sucesso' });
+        if (book.author) {
+          const existAuthor = await this.repositoryAuthor.findOne({
+            where: { name: book.author },
+          });
+          if (!existAuthor)
+            return res.status(404).json({ message: "Autor não encontrado" });
+          book.author = existAuthor;
+        }
+
+        if (book.publisher) {
+          const existPublisher = await this.repositoryAuthor.findOne({
+            where: { name: book.author },
+          });
+          if (!existPublisher)
+            return res.status(404).json({ message: "Editora não encontrada" });
+          book.publisher = existPublisher;
+        }
+        console.log(book);
+        const newBook = Book.createBook(book);
+
+        this.context.save(newBook);
+        return res.status(201).json({ message: "Livro criado com sucesso" });
       }
 
-      const updateBook = new Book(title, page_count, description, available, loan_count);
+      const isBookExist = await this.context.findOne({ id });
 
-      const { affected } = await this.context.update(Number(book_id), updateBook)
+      if (!isBookExist) {
+        console.log("entrioiuy");
+        return;
+      }
 
-      return res.status(200).json({ message: 'Livro Atualizado', success: affected === 1 ? true : false });
+      if (book.author) {
+        const existAuthor = await this.repositoryAuthor.findOne({
+          where: { name: book.author },
+        });
+        console.log("🚀 ~ BookController ~ createBook ~ existAuthor:", existAuthor)
+        if (!existAuthor)
+          return res.status(404).json({ message: "Autor não encontrado" });
+        book.author = existAuthor;
+      }
 
+      if (book.publisher) {
+        const existPublisher = await this.repositoryAuthor.findOne({
+          where: { name: book.author },
+        });
+        if (!existPublisher)
+          return res.status(404).json({ message: "Editora não encontrada" });
+        book.publisher = existPublisher;
+      }
 
-    } catch (error) {
+      const { affected } = await this.context.update(Number(id), book)
+
       return res
-        .status(500)
-        .json({ error, message: 'drop on catch' });
+        .status(200)
+        .json({
+          message: "Livro Atualizado",
+          success: affected === 1 ? true : false,
+        });
+    } catch (error) {
+      return res.status(500).json({ error, message: "drop on catch" });
     }
   }
 
-  async updatedBook(req: Request, res: Response) {
-
-  }
+  async updatedBook(req: Request, res: Response) { }
 
   async getBookByFilters(req: Request, res: Response) {
-    const { campo, valor } = req.query
-    console.log("🚀 ~ BookController ~ getBookByFilters ~ valor:", valor)
+    const { campo, valor } = req.query;
+    console.log("🚀 ~ BookController ~ getBookByFilters ~ valor:", valor);
 
     try {
-      const listBooks = await this.context.findAllByGenerics(campo as keyof Book, valor as string)
+      const listBooks = await this.context.findAllByGenerics(
+        campo as keyof Book,
+        valor as string
+      );
 
-      return res.status(200).json(listBooks)
+      return res.status(200).json(listBooks);
     } catch (error) {
-      return res.status(400).json({ message: 'error meu fi' })
+      return res.status(400).json({ message: "error meu fi" });
     }
-
-
   }
 
-
+  async updateAuthorBook(req: Request, res: Response) {
+    // update livro pelo id
+    // const isBookExist = await this.context.findOne({
+    //   where: { id },
+    // });
+    // const newBookUpdate = {
+    //   ...isBookExist,
+    //   ...book
+    // }
+    // console.log("🚀 ~ BookController ~ updateAuthorBook ~ newBookUpdate:", newBookUpdate)
+    // const novoEndereco = new EnderecoEntity(endereco.cidade, endereco.estado);
+    // adotante.endereco = novoEndereco;
+    // await this.repository.save(adotante);
+    // const { success, message } = await this.repository.atualizaEnderecoAdotante(
+    //   Number(id),
+    //   req.body as EnderecoEntity
+    // );
+    // if (!success) {
+    //   return res.status(404).json({ message });
+    // }
+    // return res.sendStatus(204);
+  }
 }

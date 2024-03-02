@@ -5,7 +5,7 @@ import TokenValidation from "../validations/token"
 import { validate } from "class-validator"
 import { Request, Response } from "express"
 import { Role } from "../entities/postgres/roles.entity"
-import { ObjectLiteral, Repository } from "typeorm"
+import { Repository } from "typeorm"
 
 export default class AuthController {
   constructor(private context: ContextStrategy, private repositoryRole?: Repository<Role>) { }
@@ -21,6 +21,7 @@ export default class AuthController {
 
       const token = TokenValidation.generateToken({ email, username })
       const role = await this.repositoryRole?.findOne({ where: { name: 'admin' } }) as Role
+      console.log("🚀 ~ AuthController ~ registerUser ~ role:", role)
 
       const newUser = UserEntity.createUser({
         id: 0,

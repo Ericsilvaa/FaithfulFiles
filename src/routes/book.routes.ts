@@ -14,14 +14,16 @@ import ContextStrategy from "../config/strategies/base/context.strategy"
 const router = express.Router()
 
 const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Book')
+const repositoryAuthor = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Author')
+const repositoryPublisher = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Publisher')
 const context = new ContextStrategy(new PostgresStrategy(repository))
-const bookController = new BookController(context);
+const bookController = new BookController(context, repositoryAuthor, repositoryPublisher);
 
 router.get('/', Auth.isMember, roles(["admin", "default"]), bookController.getAllBooks.bind(bookController))
 router.get('/filter', Auth.isMember, roles(["admin", "default"]), bookController.getBookByFilters.bind(bookController))
 router.get('/:book_id', Auth.isMember, roles(["admin", "default"]), bookController.getBookById.bind(bookController))
 
 router.post('/add', Auth.isMember, roles(["admin"]), bookController.createBook.bind(bookController))
-router.put('/updated/:book_id', Auth.isMember, roles(["admin"]), bookController.createBook.bind(bookController))
+router.put('/update/:book_id', Auth.isMember, roles(["admin"]), bookController.createBook.bind(bookController))
 
 export default router;

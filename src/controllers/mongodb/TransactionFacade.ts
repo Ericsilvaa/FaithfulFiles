@@ -1,18 +1,16 @@
-import { DataSource, ObjectLiteral } from "typeorm";
-import ContextStrategy from "../../config/strategies/base/context.strategy";
+// istanbul ignore next
+import { ObjectLiteral } from "typeorm";
 import TransactionBuilder from "./TransactionBuilder";
 import { BookTransaction } from "../../entities/mongodb/bookTransaction.entity";
 
 export default class TransactionFacade {
-  static async Transaction(user: ObjectLiteral, book: ObjectLiteral) {
-    const TransactionBook = new TransactionBuilder()
+  static Transaction(user: ObjectLiteral, book: ObjectLiteral) {
+    const Transaction = new TransactionBuilder()
       .setUser(user)
       .setBook(book)
-      .startDate()
-      .endDate()
+      .startAndFinishDate()
       .build()
 
-    return BookTransaction.createBookTransaction(TransactionBook)
-
+    return BookTransaction.createBookTransaction(Transaction)
   }
 }

@@ -12,9 +12,15 @@ export class Author {
   name: string;
 
   @OneToMany(() => Book, book => book.author)
-  books!: Book[];
+  books?: Book[];
 
-  constructor(name: string) {
+  constructor(name: string, books?: Book[]) {
     this.name = name;
+  }
+
+  static createBook(author: Author): Author {
+    return new Author(
+      author.name,
+    );
   }
 }
