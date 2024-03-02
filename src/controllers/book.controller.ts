@@ -27,14 +27,14 @@ export default class BookController {
 
   async getAllBooks(req: Request, res: Response) {
     try {
-      const books = await this.context.findAll({ relations: ['author'] });
+      const books = await this.context.findAll({ relations: ['author', 'publisher'] });
       return res.status(200).json(books);
     } catch (error) {
       return res.status(500).json({ error, message: "drop on catch" });
     }
   }
 
-  async createBook(req: Request, res: Response) {
+  async createOrUpdateBook(req: Request, res: Response) {
     const [_, pathname] = req.path.split("/");
 
     const { book_id: id } = req.params;
@@ -57,14 +57,16 @@ export default class BookController {
         }
 
         if (book.publisher) {
-          const existPublisher = await this.repositoryAuthor.findOne({
-            where: { name: book.author },
+          console.log('Book Publish', book.publisher)
+          const existPublisher = await this.repositoryPublisher.findOne({
+            where: { name: book.publisher },
           });
+
           if (!existPublisher)
             return res.status(404).json({ message: "Editora não encontrada" });
           book.publisher = existPublisher;
         }
-        console.log(book);
+
         const newBook = Book.createBook(book);
 
         this.context.save(newBook);
@@ -82,15 +84,14 @@ export default class BookController {
         const existAuthor = await this.repositoryAuthor.findOne({
           where: { name: book.author },
         });
-        console.log("🚀 ~ BookController ~ createBook ~ existAuthor:", existAuthor)
         if (!existAuthor)
           return res.status(404).json({ message: "Autor não encontrado" });
         book.author = existAuthor;
       }
 
       if (book.publisher) {
-        const existPublisher = await this.repositoryAuthor.findOne({
-          where: { name: book.author },
+        const existPublisher = await this.repositoryPublisher.findOne({
+          where: { name: book.publisher },
         });
         if (!existPublisher)
           return res.status(404).json({ message: "Editora não encontrada" });
@@ -110,17 +111,13 @@ export default class BookController {
     }
   }
 
-  async updatedBook(req: Request, res: Response) { }
 
   async getBookByFilters(req: Request, res: Response) {
     const { campo, valor } = req.query;
-    console.log("🚀 ~ BookController ~ getBookByFilters ~ valor:", valor);
 
     try {
-      const listBooks = await this.context.findAllByGenerics(
-        campo as keyof Book,
-        valor as string
-      );
+      const relations = ['author', 'publisher']
+      const listBooks = await this.context.findAllByGenerics(campo as keyof Book, valor as string, relations);
 
       return res.status(200).json(listBooks);
     } catch (error) {

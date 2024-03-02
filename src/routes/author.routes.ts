@@ -27,7 +27,7 @@ router.get('/', authorController.getAllAuthors.bind(authorController))
 router.get('/:author_id', authorController.getAuthorById.bind(authorController))
 // router.get('/filter', authorController.getAuthorByFilters.bind(authorController))
 
-router.post('/add', authorController.createAuthor.bind(authorController))
-router.put('/updated/:author_id', authorController.createAuthor.bind(authorController))
+router.post('/add', authorController.createOrUpdateAuthor.bind(authorController))
+router.put('/updated/:author_id', authorController.createOrUpdateAuthor.bind(authorController))
 
 export default router;

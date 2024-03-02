@@ -14,7 +14,15 @@ export class Publisher {
   @OneToMany(() => Book, book => book.publisher)
   books!: Book[];
 
-  constructor(name: string) {
+  constructor(name: string, books: Book[]) {
     this.name = name;
+    this.books = books;
+  }
+
+  static createPublisher(publisher: Publisher): Publisher {
+    return new Publisher(
+      publisher.name,
+      publisher.books,
+    );
   }
 }
