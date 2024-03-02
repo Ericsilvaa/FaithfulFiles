@@ -23,16 +23,15 @@ export default class TransactionBuilder {
     return this
   }
 
-  startDate() {
+  startAndFinishDate() {
     this.transaction.startDate = new Date()
-    return this
-  }
 
-  endDate() {
     this.transaction.endDate = new Date(
       this.transaction.startDate.getTime() +
       (7 * 24 * 60 * 60 * 1000));
+
     return this
+
   }
 
   build() {

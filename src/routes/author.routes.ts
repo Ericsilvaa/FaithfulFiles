@@ -1,0 +1,33 @@
+
+
+
+import express, { Router } from "express"
+
+import Auth from "../middleware/isAuth"
+import { roles } from "../middleware/roles"
+import PostgresStrategy from "../config/strategies/postgres/postgres.strategy"
+import { dbDataSourcePostgres } from "../config/db/dataSource"
+import ContextStrategy from "../config/strategies/base/context.strategy"
+import AuthorController from "../controllers/author.controller"
+
+
+
+// 'htttp =? /library/author'
+const router = express.Router()
+
+const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Author')
+const context = new ContextStrategy(new PostgresStrategy(repository))
+const authorController = new AuthorController(context);
+// const repositoryRole = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Role')
+// (repositoryRole as Repository<Role>)
+
+router.use(Auth.isMember, roles(["admin"]))
+
+router.get('/', authorController.getAllAuthors.bind(authorController))
+router.get('/:author_id', authorController.getAuthorById.bind(authorController))
+// router.get('/filter', authorController.getAuthorByFilters.bind(authorController))
+
+router.post('/add', authorController.createAuthor.bind(authorController))
+router.put('/updated/:author_id', authorController.createAuthor.bind(authorController))
+
+export default router;

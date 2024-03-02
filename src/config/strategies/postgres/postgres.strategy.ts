@@ -19,8 +19,8 @@ export default class PostgresStrategy {
       const connection = await dbDataSourcePostgres.initialize()
 
       if (!connection.isInitialized) throw new Error('Error initial database. connection')
-
       return connection
+
 
     } catch (error) {
       console.log(error)

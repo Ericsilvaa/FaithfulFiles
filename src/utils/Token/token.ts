@@ -4,7 +4,7 @@ export default class TokenValidation {
 
   static generateToken = ({ email, username }: { email: string, username: string }) => {
     const secret = process.env.NODE_ENV_JWT_SECRET_KEY!;
-    const timeExpires = "5m";
+    const timeExpires = "80m";
 
     const payload = {
       email,

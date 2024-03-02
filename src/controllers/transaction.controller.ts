@@ -37,17 +37,17 @@ export default class TransactionBookController {
   // @TransactionDb
   async createBookTransaction(req: Request, res: Response) {
     // url: /books/transactions?userId=1&bookId=2
-    const { userId, bookId } = req.query;
+    const { bookId } = req.query;
+    const { email } = req.user
 
     try {
-      const { user, book } = await this.checktUserAndBookExist(
-        Number(userId),
+      const { user, book } = await this.checktUserAndBookExist(email,
         Number(bookId)
       );
 
       if (user && book) {
         if (book.available === true) {
-          const transaction = await TransactionFacade.Transaction(user, book);
+          const transaction = TransactionFacade.Transaction(user, book);
 
           await this.mongoDb.connect();
           const newTransaction = await this.mongoDb.save(transaction);
@@ -75,11 +75,11 @@ export default class TransactionBookController {
     }
   }
 
-  private async checktUserAndBookExist(userId: number, bookId: number) {
+  private async checktUserAndBookExist(email: string, bookId: number) {
     const [user, book] = await Promise.all([
       await this.postgresDb
         .getRepository("UserEntity")
-        .findOne({ where: { id: userId } }),
+        .findOne({ where: { email } }),
       await this.postgresDb
         .getRepository("Book")
         .findOne({ where: { id: bookId } }),
