@@ -5,6 +5,8 @@ import ContextStrategy from "../config/strategies/base/context.strategy";
 import PublisherController from "../controllers/publisher.controller";
 import { Repository } from "typeorm";
 import { Book } from "../entities/postgres/book.entity";
+import Auth from "../middleware/isAuth";
+import { roles } from "../middleware/roles";
 
 
 
@@ -13,6 +15,8 @@ const router = Router()
 const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Publisher')
 const context = new ContextStrategy(new PostgresStrategy(repository))
 const publisherController = new PublisherController(context);
+
+router.use(Auth.isMember, roles(["admin"]))
 
 router.get('/', publisherController.getAllPublishers.bind(publisherController))
 router.get('/:publisher_id', publisherController.getPublisherById.bind(publisherController))
