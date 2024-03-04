@@ -1,5 +1,6 @@
 import express from "express";
 import AuthRoute from './auth.routes'
+import UserRoute from './user.routes'
 import BookRoute from './book.routes'
 import AuthorRoute from './author.routes'
 import PublisherRoute from './publisher.routes'
@@ -18,6 +19,7 @@ const router = (app: express.Router) => {
   }
   dbConnection()
 
+  app.use('/library/profile', UserRoute)
   app.use('/library/book/transaction', TransactionRoute)
   app.use('/library/auth/role', RoleRoute)
   app.use('/library/admin', AdminRoute)

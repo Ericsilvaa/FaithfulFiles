@@ -1,18 +1,8 @@
 import { DataSource, ObjectLiteral, Repository } from "typeorm";
-import { BookTransaction } from "../entities/mongodb/bookTransaction.entity";
 import { Request, Response } from "express";
 import TransactionFacade from "./mongodb/TransactionFacade";
-import { dbDataSourceMongo } from "../config/db/dataSource";
 import ContextStrategy from "../config/strategies/base/context.strategy";
-import TransactionDb from "../decorators/transaction.decorator";
-import { UserEntity } from "../entities/postgres/user.entity";
 import { ObjectId } from "mongodb";
-
-type TBookTransaction = Omit<BookTransaction, "id">;
-type TBookData = {
-  userId: string;
-  bookId: string;
-};
 
 export default class TransactionBookController {
   constructor(
@@ -20,7 +10,6 @@ export default class TransactionBookController {
     private mongoDb: ContextStrategy
   ) { }
 
-  private createTransaction(data: TBookTransaction) { }
   // @TransactionDb
   async getAllTransation(req: Request, res: Response) {
     try {

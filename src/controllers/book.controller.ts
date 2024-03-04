@@ -73,7 +73,7 @@ export default class BookController {
         return res.status(201).json({ message: "Livro criado com sucesso" });
       }
 
-       
+
     } catch (error) {
       return res.status(500).json({ error, message: "drop on catch" });
     }
@@ -91,28 +91,5 @@ export default class BookController {
     } catch (error) {
       return res.status(400).json({ message: "error meu fi" });
     }
-  }
-
-  async updateAuthorBook(req: Request, res: Response) {
-    // update livro pelo id
-    // const isBookExist = await this.context.findOne({
-    //   where: { id },
-    // });
-    // const newBookUpdate = {
-    //   ...isBookExist,
-    //   ...book
-    // }
-    // console.log("🚀 ~ BookController ~ updateAuthorBook ~ newBookUpdate:", newBookUpdate)
-    // const novoEndereco = new EnderecoEntity(endereco.cidade, endereco.estado);
-    // adotante.endereco = novoEndereco;
-    // await this.repository.save(adotante);
-    // const { success, message } = await this.repository.atualizaEnderecoAdotante(
-    //   Number(id),
-    //   req.body as EnderecoEntity
-    // );
-    // if (!success) {
-    //   return res.status(404).json({ message });
-    // }
-    // return res.sendStatus(204);
   }
 }

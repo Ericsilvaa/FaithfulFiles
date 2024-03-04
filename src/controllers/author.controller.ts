@@ -56,6 +56,7 @@ export default class AuthorController {
         ...isAuthor,
         ...updateAuthor
       }
+
       const { affected } = await this.context.update(Number(id), newAuthor)
 
       return res.status(200).json({ message: 'Author Atualizado', success: affected === 1 ? true : false });
