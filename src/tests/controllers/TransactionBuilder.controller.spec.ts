@@ -25,7 +25,7 @@ describe('Test with Transaction Controller', () => {
     const expected = {
       user: {
         id: 3,
-        username: 'Isabelle',
+        username: 'Isabelle Rodrigues Guimarães',
         email: 'bel@dev.com.br',
       }
     }
@@ -63,7 +63,7 @@ describe('Test with Transaction Controller', () => {
     const result = new TransactionBuilder().setUser(user).setBook(book).startAndFinishDate().build()
 
     const expected = {
-      user: { id: 3, username: 'Isabelle', email: 'bel@dev.com.br' },
+      user: { id: 3, username: 'Isabelle Rodrigues Guimarães', email: 'bel@dev.com.br' },
       book: { id: 1, title: '1984' },
       startDate: new Date(result.startDate),
       endDate: new Date(result.endDate)
@@ -77,7 +77,7 @@ describe('Test with Transaction Controller', () => {
 
     const expected = {
       _id: undefined,
-      user: { id: 3, username: 'Isabelle', email: 'bel@dev.com.br' },
+      user: { id: 3, username: 'Isabelle Rodrigues Guimarães', email: 'bel@dev.com.br' },
       book: { id: 1, title: '1984' },
       startDate: new Date(result.startDate),
       endDate: new Date(result.endDate),
