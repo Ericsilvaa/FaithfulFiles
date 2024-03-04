@@ -4,6 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -11,6 +12,8 @@ import { IsEmail, MinLength } from "class-validator";
 import { Role } from "./roles.entity";
 import { EnumBrazilianStates } from "../../utils/enums/AddressEnum";
 import { ObjectId } from "mongodb";
+import { Book } from "./book.entity";
+import { IAddress } from "../../interfaces/IAddress";
 
 
 @Entity()
@@ -47,21 +50,10 @@ export class UserEntity {
   role: Role;
 
   @Column({ type: 'json', nullable: true, })
-  address?: {
-    cep: string;
-    logradouro: string;
-    bairro: string;
-    localidade: string;
-    complemento?: string;
-    uf: EnumBrazilianStates;
-    ibge?: string;
-    gia?: string;
-    ddd?: string;
-    siafi?: string;
-  }
+  address?: IAddress
 
-
-
+  @OneToMany(() => Book, book => book.owner, { nullable: true }) // Relacionamento OneToMany com Book, opcional
+  owner_book?: Book[];
 
   constructor(
     username: string,

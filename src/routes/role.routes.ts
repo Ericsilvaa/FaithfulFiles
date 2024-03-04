@@ -1,10 +1,14 @@
 import { Router } from "express"
-import PostgresStrategy from "../config/strategies/postgres/postgres.strategy"
-import { dbDataSourcePostgres } from "../config/db/dataSource"
-import ContextStrategy from "../config/strategies/base/context.strategy"
-import RoleController from "../controllers/role.controller"
+
 import Auth from "../middleware/isAuth"
 import { roles } from "../middleware/roles"
+
+import { dbDataSourcePostgres } from "../config/db/dataSource"
+import PostgresStrategy from "../config/strategies/postgres/postgres.strategy"
+import ContextStrategy from "../config/strategies/base/context.strategy"
+
+import RoleController from "../controllers/role.controller"
+
 
 
 
