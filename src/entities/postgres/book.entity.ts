@@ -8,6 +8,7 @@ import {
 import { Author } from "./author.entity";
 import { Publisher } from "./publisher.entity";
 import { IsNotEmpty } from "class-validator";
+import { UserEntity } from "./user.entity";
 
 @Entity()
 export class Book {
@@ -38,6 +39,9 @@ export class Book {
 
   @DeleteDateColumn({ name: "deleted_at", type: "boolean" })
   deleted_at?: Boolean | null;
+
+  @ManyToOne(() => UserEntity, user => user.owner_book, { nullable: true }) // Relacionamento ManyToOne com UserEntity
+  owner?: UserEntity;
 
   constructor(
     title: string,

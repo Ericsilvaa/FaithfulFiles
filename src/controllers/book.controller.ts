@@ -73,39 +73,7 @@ export default class BookController {
         return res.status(201).json({ message: "Livro criado com sucesso" });
       }
 
-      const isBookExist = await this.context.findOne({ id });
-
-      if (!isBookExist) {
-        console.log("entrioiuy");
-        return;
-      }
-
-      if (book.author) {
-        const existAuthor = await this.repositoryAuthor.findOne({
-          where: { name: book.author },
-        });
-        if (!existAuthor)
-          return res.status(404).json({ message: "Autor não encontrado" });
-        book.author = existAuthor;
-      }
-
-      if (book.publisher) {
-        const existPublisher = await this.repositoryPublisher.findOne({
-          where: { name: book.publisher },
-        });
-        if (!existPublisher)
-          return res.status(404).json({ message: "Editora não encontrada" });
-        book.publisher = existPublisher;
-      }
-
-      const { affected } = await this.context.update(Number(id), book)
-
-      return res
-        .status(200)
-        .json({
-          message: "Livro Atualizado",
-          success: affected === 1 ? true : false,
-        });
+       
     } catch (error) {
       return res.status(500).json({ error, message: "drop on catch" });
     }

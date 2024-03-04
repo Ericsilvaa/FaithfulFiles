@@ -1,9 +1,14 @@
-import { Request } from 'express';
+import { IAddress } from "../interfaces/IAddress"
 
 interface UserRequest {
   user: {
     email: string
     username: string
+  },
+  userLogged: {
+    id: string | number
+    email: string,
+    address: IAddress | undefined
   }
 }
 

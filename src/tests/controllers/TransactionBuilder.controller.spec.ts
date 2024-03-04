@@ -59,7 +59,7 @@ describe('Test with Transaction Controller', () => {
     expect(result).toEqual(expected)
 
   })
-  test('#TransactionController - Should generate a inital and finish date instance', () => {
+  test('#TransactionController - Should generate transaction instance', () => {
     const result = new TransactionBuilder().setUser(user).setBook(book).startAndFinishDate().build()
 
     const expected = {
