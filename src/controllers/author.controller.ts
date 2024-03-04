@@ -39,7 +39,7 @@ export default class AuthorController {
   }
 
 
-  async createAuthor(req: Request, res: Response) {
+  async createOrUpdateAuthor(req: Request, res: Response) {
     const { author_id: id } = req.params
     const updateAuthor = <Author>req.body;
 

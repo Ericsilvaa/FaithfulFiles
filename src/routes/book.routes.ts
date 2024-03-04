@@ -23,7 +23,7 @@ router.get('/', Auth.isMember, roles(["admin", "default"]), bookController.getAl
 router.get('/filter', Auth.isMember, roles(["admin", "default"]), bookController.getBookByFilters.bind(bookController))
 router.get('/:book_id', Auth.isMember, roles(["admin", "default"]), bookController.getBookById.bind(bookController))
 
-router.post('/add', Auth.isMember, roles(["admin"]), bookController.createBook.bind(bookController))
-router.put('/update/:book_id', Auth.isMember, roles(["admin"]), bookController.createBook.bind(bookController))
+router.post('/add', Auth.isMember, roles(["admin"]), bookController.createOrUpdateBook.bind(bookController))
+router.put('/update/:book_id', Auth.isMember, roles(["admin"]), bookController.createOrUpdateBook.bind(bookController))
 
 export default router;

@@ -55,10 +55,10 @@ export default class PostgresStrategy {
     return await this.repository.findAndCount(query)
   }
 
-  async findAllByGenerics<T extends keyof Book>(field: T, value: Book[T]): Promise<ObjectLiteral[]> {
+  async findAllByGenerics<T extends keyof Book>(field: T, value: Book[T], relations?: string[]): Promise<ObjectLiteral[]> {
     const normalizeValue = field === 'available' ? { [field]: Boolean(value) } : { [field]: ILike(`%${value}%`) }
 
-    const result = await this.repository.find({ where: normalizeValue })
+    const result = await this.repository.find({ where: normalizeValue, relations })
     return result
   }
 

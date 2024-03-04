@@ -34,8 +34,8 @@ export default class ContextStrategy implements IBaseStrategy {
     return await this.database.findAndCount(query)
   }
 
-  async findAllByGenerics<T extends keyof Book>(field: T, value: Book[T]) {
-    return await this.database.findAllByGenerics(field, value)
+  async findAllByGenerics<T extends keyof Book>(field: T, value: Book[T], relations?: string[]) {
+    return await this.database.findAllByGenerics(field, value, relations)
   }
 
   async update(id: any, item: any): Promise<any> {

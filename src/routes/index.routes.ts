@@ -2,6 +2,7 @@ import express from "express";
 import AuthRoute from './auth.routes'
 import BookRoute from './book.routes'
 import AuthorRoute from './author.routes'
+import PublisherRoute from './publisher.routes'
 import TransactionRoute from './transaction.routes'
 import RoleRoute from './role.routes'
 import AdminRoute from './admin.routes'
@@ -23,6 +24,7 @@ const router = (app: express.Router) => {
   app.use('/library/auth', AuthRoute)
   app.use('/library/book', BookRoute)
   app.use('/library/author', AuthorRoute)
+  app.use('/library/publisher', PublisherRoute)
 
 
 }
