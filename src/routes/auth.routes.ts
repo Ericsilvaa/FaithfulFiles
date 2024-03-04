@@ -15,10 +15,10 @@ const router = Router()
 const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'UserEntity')
 const repositoryRole = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Role')
 const context = new ContextStrategy(new PostgresStrategy(repository))
-const userController = new AuthController(context, (repositoryRole as Repository<Role>));
+const authController = new AuthController(context, (repositoryRole as Repository<Role>));
 
 
-router.post('/register', userController.registerUser.bind(userController));
-router.post('/login', userController.loginUser.bind(userController))
+router.post('/register', authController.registerUser.bind(authController));
+router.post('/login', authController.loginUser.bind(authController))
 
 export default router
