@@ -1,6 +1,6 @@
 import { DataSource, ObjectLiteral, Repository } from "typeorm";
 import { Request, Response } from "express";
-import TransactionFacade from "./mongodb/TransactionFacade";
+import TransactionFacade from "../utils/Transaction/TransactionFacade";
 import ContextStrategy from "../config/strategies/base/context.strategy";
 import { ObjectId } from "mongodb";
 

@@ -8,7 +8,7 @@ import { dbDataSourceMongo, dbDataSourcePostgres } from "../config/db/dataSource
 import MongoDBStrategy from "../config/strategies/mongodb/mongodb.strategy";
 import ContextStrategy from "../config/strategies/base/context.strategy";
 
-import TransactionFacade from "../controllers/mongodb/TransactionFacade";
+import TransactionFacade from "../utils/Transaction/TransactionFacade";
 import TransactionBookController from "../controllers/transaction.controller";
 
 
