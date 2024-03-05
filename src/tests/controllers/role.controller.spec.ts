@@ -5,9 +5,21 @@ import PostgresStrategy from "../../config/strategies/postgres/postgres.strategy
 import { Role } from "../../entities/postgres/roles.entity"
 import { Permissions } from "../../entities/postgres/permissions.entity"
 
-const MOCK_ROLE = {
-  role_id: 2,
+const MOCK_DEFAULT = {
+  role_id: 1,
   name: 'default'
+}
+
+const MOCK_ADMIN = {
+  id: 0,
+  name: 'admin',
+  users: []
+}
+
+const MOCK_OWNER = {
+  id: 3,
+  name: 'owner',
+  users: []
 }
 
 describe('Role Controller', () => {
@@ -28,50 +40,42 @@ describe('Role Controller', () => {
   })
 
   // test('#Create Role, you should create a new role', async () => {
-  //   const role = {
-  //     id: 0,
-  //     name: 'default',
-  //     permissions: undefined,
-  //     users: []
-  //   }
 
-  //   const expected: Role = {
+  //   const expected = {
   //     id: 2,
-  //     name: 'default',
+  //     name: 'admin',
   //     permissions: undefined,
   //     users: []
   //   }
 
-  //   const newRole = Role.createRole(role)
+  //   const newRole = Role.createRole(MOCK_OWNER)
   //   const result = await context.save(newRole)
 
 
   //   expect(result).toEqual(expected)
-
   // })
 
   // test('#Read Role, you should read all list of role', async () => {
-  //   const expected: Role[] = [
+  //   const expected = 3
 
-  //   ]
+  //   const result: Role[] = await context.findAll(({}))
 
-  //   const result = await context.findAll(({}))
-
-  //   expect(result).toEqual(expected)
+  //   expect(result.length).toEqual(expected)
 
   // })
 
   // test('#Read Role by id, you should read a role when user pass a id', async () => {
-  //   const { role_id } = MOCK_ROLE
+  //   const { id } = MOCK_OWNER
 
-  //   const expected: Role = {
-  //     id: 2,
-  //     name: 'default',
+  //   const expected = {
+  //     id: 3,
+  //     name: 'owner',
   //     permissions: undefined,
   //     users: undefined,
   //   }
 
-  //   const result = await context.findOne({ id: role_id })
+  //   const result = await context.findOne({ id })
+  //   console.log("🚀 ~ test ~ result:", result)
 
   //   expect(result).toEqual(expected)
   // })

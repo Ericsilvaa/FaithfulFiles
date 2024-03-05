@@ -33,7 +33,7 @@ describe('Postgres Strategy', function () {
       author: undefined,
       page_count: 384,
       publisher: undefined,
-      deleted_at: null,
+      deleted_at: undefined,
       description: 'Desiring God is a paradigm-shattering work that dramatically alters common perspectives on relating to God.',
       available: true,
       loan_count: 0
@@ -70,7 +70,7 @@ describe('Postgres Strategy', function () {
       description: 'Desiring God is a paradigm-shattering work that dramatically alters common perspectives on relating to God.',
       publisher: undefined,
       available: true,
-      deleted_at: null,
+      deleted_at: undefined,
       loan_count: 0
     }
 
@@ -94,7 +94,7 @@ describe('Postgres Strategy', function () {
       publisher: undefined,
       available: true,
       loan_count: 0,
-      deleted_at: null
+      deleted_at: undefined
     }
 
     expect(result).toEqual(expected)

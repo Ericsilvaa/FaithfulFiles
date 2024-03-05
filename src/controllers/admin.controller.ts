@@ -12,11 +12,12 @@ export default class AdminController {
     try {
       const [allUsers, count]: [UserEntity[], number] = await this.context.findAndCount({ relations: ['role'] })
 
-      const { users_admin, users_default } = newFormatUsers(allUsers)
+      const { users_admin, users_default, users_owner } = newFormatUsers(allUsers)
 
       return res.status(200).json({
         users_admin,
         users_default,
+        users_owner,
         total_users: count
       })
 
@@ -28,7 +29,7 @@ export default class AdminController {
   }
 
   async updateUserRole(req: Request, res: Response) {
-    const { email, role } = req.params
+    const { email, role } = req.body
 
     try {
       const [userPromise, rolePromise] = await Promise.allSettled([
