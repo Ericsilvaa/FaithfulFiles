@@ -1,10 +1,10 @@
 
 // istanbul ignore next
 import { DataSource, ObjectLiteral } from "typeorm"
-import { dbDataSourcePostgres } from "../../config/db/dataSource"
-import PostgresStrategy from "../../config/strategies/postgres/postgres.strategy"
-import TransactionBuilder from "../../utils/Transaction/TransactionBuilder"
-import TransactionFacade from "../../utils/Transaction/TransactionFacade"
+import { dbDataSourcePostgres } from "../../../config/db/dataSource"
+import PostgresStrategy from "../../../config/strategies/postgres/postgres.strategy"
+import TransactionBuilder from "../../../utils/Transaction/TransactionBuilder"
+import TransactionFacade from "../../../utils/Transaction/TransactionFacade"
 
 
 describe('Test with Transaction Controller', () => {
