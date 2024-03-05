@@ -20,8 +20,7 @@ export default class AuthController {
       if (emailExists) res.status(404).json({ message: 'Email já cadastrado, Por favor escolha outro email!' });
 
       const token = TokenValidation.generateToken({ email, username })
-      const role = await this.repositoryRole?.findOne({ where: { name: 'admin' } }) as Role
-      console.log("🚀 ~ AuthController ~ registerUser ~ role:", role)
+      const role = await this.repositoryRole?.findOne({ where: { name: 'default' } }) as Role
 
       const newUser = UserEntity.createUser({
         id: 0,
@@ -71,7 +70,7 @@ export default class AuthController {
       const token = TokenValidation.generateToken(user)
 
       await this.context.update(user.id, { ...user, token })
-      const userLogado = { ...user, token }
+      const userLogado = await this.context.findOne({ email }, ['owner_book'])
       Reflect.deleteProperty(userLogado, 'password_hash')
 
       return res.status(200).json({

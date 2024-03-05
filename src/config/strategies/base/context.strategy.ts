@@ -23,8 +23,8 @@ export default class ContextStrategy implements IBaseStrategy {
     return this.database.save(item)
   }
 
-  async findOne(query: any): Promise<any> {
-    return await this.database.findOne(query)
+  async findOne(query: any, relations?: string[]): Promise<any> {
+    return await this.database.findOne(query, relations)
   }
   async findAll(query: { skip?: number, take?: number, relations?: string[] }): Promise<any> {
     return await this.database.findAll(query)
@@ -43,7 +43,7 @@ export default class ContextStrategy implements IBaseStrategy {
   }
 
   async delete(id: number) {
-    return this.database.delete(id)
+    return await this.database.delete(id)
   }
 
 }

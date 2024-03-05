@@ -47,8 +47,8 @@ export default class PostgresStrategy {
   }
 
 
-  async findOne(query: any) {
-    return await this.repository.findOne({ where: query })
+  async findOne(query: any, relations?: string[]) {
+    return await this.repository.findOne({ where: query, relations })
   }
 
   async findAndCount(query: any) {
@@ -69,9 +69,6 @@ export default class PostgresStrategy {
   async delete(id: number) {
     return await this.repository.softDelete(id)
   }
-
-
-
 
 }
 

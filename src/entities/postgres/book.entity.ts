@@ -38,7 +38,7 @@ export class Book {
   loan_count: number;
 
   @DeleteDateColumn({ name: "deleted_at", type: "boolean" })
-  deleted_at?: Boolean | null;
+  deleted_at?: Boolean
 
   @ManyToOne(() => UserEntity, user => user.owner_book, { nullable: true }) // Relacionamento ManyToOne com UserEntity
   owner?: UserEntity;
@@ -50,7 +50,8 @@ export class Book {
     available: boolean,
     loan_count: number,
     author?: Author,
-    publisher?: Publisher
+    publisher?: Publisher,
+    deleted_at?: Boolean
   ) {
     this.title = title;
     this.page_count = page_count;
@@ -59,6 +60,7 @@ export class Book {
     this.loan_count = loan_count;
     this.author = author;
     this.publisher = publisher;
+    this.deleted_at = deleted_at;
   }
 
   static createBook(book: Book): Book {
@@ -69,7 +71,8 @@ export class Book {
       book.available,
       book.loan_count,
       book.author,
-      book.publisher
+      book.publisher,
+      book.deleted_at
     );
   }
 }

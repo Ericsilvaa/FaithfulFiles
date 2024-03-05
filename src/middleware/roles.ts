@@ -7,12 +7,10 @@ type RoleString = "default" | "admin" | "owner"
 export const roles = (role: RoleString[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const pathname = req.path
-    console.log("🚀 ~ return ~ pathname:", pathname)
     const { email } = req.user
 
     const user = await dbDataSourcePostgres.getRepository('UserEntity')
-      .findOne({ where: { email }, relations: ['role'] }) as UserEntity
-    console.log("🚀 ~ return ~ user:", user.address)
+      .findOne({ where: { email }, relations: ['role', 'owner_book'] }) as UserEntity
 
 
     if (!user) return res.status(401).send('User não cadastrado!')

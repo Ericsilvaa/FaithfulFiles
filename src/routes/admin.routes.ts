@@ -20,6 +20,6 @@ router.use(Auth.isMember, roles(['admin']))
 
 router.get('/', (req, res) => res.send('Welcome to the Page Admin'))
 router.get('/accounts', adminController.getAllUsers.bind(adminController))
-router.post('/update/user/:email/:role', adminController.updateUserRole.bind(adminController))
+router.post('/update/user/', adminController.updateUserRole.bind(adminController))
 
 export default router
