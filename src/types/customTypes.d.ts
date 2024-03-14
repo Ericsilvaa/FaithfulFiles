@@ -1,4 +1,4 @@
-import { IAddress } from "../interfaces/IAddress"
+import { IAddress } from "../api/interfaces/IAddress"
 
 interface UserRequest {
   user: {

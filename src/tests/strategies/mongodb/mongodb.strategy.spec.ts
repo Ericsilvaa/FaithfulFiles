@@ -1,7 +1,7 @@
+import { dbDataSourceMongo } from "../../../database/db/dataSource"
+import ContextStrategy from "../../../database/strategies/base/context.strategy"
+import MongoDBStrategy from "../../../database/strategies/mongodb/mongodb.strategy"
 
-import { dbDataSourceMongo } from '../../../config/db/dataSource'
-import ContextStrategy from '../../../config/strategies/base/context.strategy'
-import MongoDBStrategy from '../../../config/strategies/mongodb/mongodb.strategy'
 
 
 const contextdb = new ContextStrategy(new MongoDBStrategy(dbDataSourceMongo))
