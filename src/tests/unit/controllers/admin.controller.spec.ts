@@ -1,13 +1,6 @@
-import { ObjectLiteral, Repository } from "typeorm"
-import { dbDataSourcePostgres } from "../../../config/db/dataSource"
-import ContextStrategy from "../../../config/strategies/base/context.strategy"
-import PostgresStrategy from "../../../config/strategies/postgres/postgres.strategy"
-import AdminController from "../../../controllers/admin.controller"
-import { Role } from "../../../entities/postgres/roles.entity"
-import app from "../../../app"
-import { response } from "express"
 
-const URL = 'http://localhost:5000/library/admin/accounts'
+
+// const URL = 'http://localhost:5000/library/admin/accounts'
 describe('#AdminController Test', () => {
   test('#getAllUsers, sholud be return a list of users separated by roles', (done) => {
     const expected = [{

@@ -1,8 +1,8 @@
 import { DataSource, Repository } from "typeorm"
-import { dbDataSourcePostgres } from "../../../config/db/dataSource"
-import ContextStrategy from "../../../config/strategies/base/context.strategy"
-import PostgresStrategy from "../../../config/strategies/postgres/postgres.strategy"
-import { Permissions } from "../../../entities/postgres/permissions.entity"
+import ContextStrategy from "../../../database/strategies/base/context.strategy"
+import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy"
+import { dbDataSourcePostgres } from "../../../database/db/dataSource"
+
 
 const MOCK_DEFAULT = {
   role_id: 1,

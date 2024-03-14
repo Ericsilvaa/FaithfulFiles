@@ -1,8 +1,8 @@
+import { dbDataSourcePostgres } from "../../../database/db/dataSource"
+import { Book } from "../../../database/entities/postgres/book.entity"
+import ContextStrategy from "../../../database/strategies/base/context.strategy"
+import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy"
 
-import { Book } from '../../../entities/postgres/book.entity'
-import { dbDataSourcePostgres } from '../../../config/db/dataSource'
-import ContextStrategy from '../../../config/strategies/base/context.strategy'
-import PostgresStrategy from '../../../config/strategies/postgres/postgres.strategy'
 
 
 const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'UserEntity')
