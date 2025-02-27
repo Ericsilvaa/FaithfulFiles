@@ -2,14 +2,9 @@ import { DataSource, ObjectLiteral } from "typeorm";
 import { Request, Response } from "express";
 
 import { ObjectId } from "mongodb";
-<<<<<<< HEAD:src/controllers/transaction.controller.ts
-import { BookTransaction } from "../config/db/mongodb/bookTransaction.entity";
-import { TransactionDb } from "../decorators/transaction.decorator";
-=======
-import TransactionFacade from "../utils/Transaction/TransactionFacade";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
-
->>>>>>> 768ccf01d80e950ce2814a988b75c082878e5ad0:src/api/controllers/transaction.controller.ts
+import { BookTransaction } from "../../database/entities/mongodb/bookTransaction.entity";
+import { TransactionDb } from "../../decorators/transaction.decorator";
 
 export default class TransactionBookController {
   constructor(
@@ -20,7 +15,6 @@ export default class TransactionBookController {
   // @TransactionDataBase()
   async getAllTransation(req: Request, res: Response) {
     try {
-
       const transactions = await this.mongoDb.findAll({});
       return res.status(200).json(transactions);
     } catch (error) {
@@ -29,11 +23,8 @@ export default class TransactionBookController {
   }
 
   // decorator
-<<<<<<< HEAD:src/controllers/transaction.controller.ts
 
-=======
   // @TransactionDataBase
->>>>>>> 768ccf01d80e950ce2814a988b75c082878e5ad0:src/api/controllers/transaction.controller.ts
   async createBookTransaction(req: Request, res: Response) {
     // url: /books/transactions?userId=1&bookId=2
     const { bookId } = req.query;

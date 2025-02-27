@@ -47,6 +47,14 @@ export enum ChurchRole {
   MEMBER = "member",
 }
 
+import { ValueTransformer } from "typeorm";
+import { IAddress } from "../../api/interfaces/IAddress";
+
+export const AddressTransformer: ValueTransformer = {
+  to: (value: IAddress | null) => (value ? JSON.stringify(value) : "{}"),
+  from: (value: string | null) => (value ? JSON.parse(value) : {}),
+};
+
 @Entity("users")
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
@@ -70,8 +78,12 @@ export class User extends BaseEntity {
   @Column({ type: "varchar", length: 15, nullable: true })
   phone?: string;
 
-  @Column({ type: "jsonb", default: () => "'{}'" })
-  address!: object;
+  @Column({
+    type: "jsonb",
+    default: () => "'{}'",
+    transformer: AddressTransformer,
+  })
+  address!: IAddress;
 
   @Column({ type: "boolean", default: false })
   is_verified!: boolean;
