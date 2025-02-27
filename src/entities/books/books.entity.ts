@@ -52,6 +52,12 @@ export class Book extends BaseEntity {
   @Column({ type: "smallint" })
   published_year!: number;
 
+  @Column({ type: "int", nullable: false })
+  page_count!: number;
+
+  @Column({ type: "text", nullable: true })
+  description?: string;
+
   @Column({ type: "enum", enum: Language, default: Language.PORTUGUESE })
   language!: Language;
 
@@ -75,4 +81,11 @@ export class Book extends BaseEntity {
 
   @CreateDateColumn({ type: "timestamp" })
   created_at!: Date;
+
+  // ✅ Função `createBook` para instanciar um livro corretamente
+  static createBook(data: Partial<Book>): Book {
+    const book = new Book();
+    Object.assign(book, data);
+    return book;
+  }
 }
