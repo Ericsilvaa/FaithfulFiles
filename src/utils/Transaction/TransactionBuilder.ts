@@ -1,40 +1,38 @@
-import { ObjectLiteral, } from "typeorm"
-import { BookTransaction } from "../../entities/mongodb/bookTransaction.entity"
-
+import { ObjectLiteral } from "typeorm";
+import { BookTransaction } from "../../config/db/mongodb/bookTransaction.entity";
 
 export default class TransactionBuilder {
-  private transaction: ObjectLiteral = {}
-  constructor() { }
+  private transaction: ObjectLiteral = {};
+  constructor() {}
 
   setUser(user: ObjectLiteral) {
     this.transaction.user = {
       id: user.id,
       username: user.username,
       email: user.email,
-    }
-    return this
+    };
+    return this;
   }
 
   setBook(book: ObjectLiteral) {
     this.transaction.book = {
       id: book.id,
       title: book.title,
-    }
-    return this
+    };
+    return this;
   }
 
   startAndFinishDate() {
-    this.transaction.startDate = new Date()
+    this.transaction.startDate = new Date();
 
     this.transaction.endDate = new Date(
-      this.transaction.startDate.getTime() +
-      (7 * 24 * 60 * 60 * 1000));
+      this.transaction.startDate.getTime() + 7 * 24 * 60 * 60 * 1000,
+    );
 
-    return this
-
+    return this;
   }
 
   build() {
-    return this.transaction
+    return this.transaction;
   }
 }

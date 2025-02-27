@@ -3,13 +3,13 @@ import { Request, Response } from "express";
 import TransactionFacade from "../utils/Transaction/TransactionFacade";
 import ContextStrategy from "../config/strategies/base/context.strategy";
 import { ObjectId } from "mongodb";
-import { BookTransaction } from "../entities/mongodb/bookTransaction.entity";
+import { BookTransaction } from "../config/db/mongodb/bookTransaction.entity";
 import { TransactionDb } from "../decorators/transaction.decorator";
 
 export default class TransactionBookController {
   constructor(
     private postgresDb: DataSource,
-    private mongoDb: ContextStrategy
+    private mongoDb: ContextStrategy,
   ) {}
 
   // @TransactionDb

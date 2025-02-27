@@ -1,7 +1,7 @@
 // istanbul ignore next
 import { ObjectLiteral } from "typeorm";
 import TransactionBuilder from "./TransactionBuilder";
-import { BookTransaction } from "../../entities/mongodb/bookTransaction.entity";
+import { BookTransaction } from "../../config/db/mongodb/bookTransaction.entity";
 
 export default class TransactionFacade {
   static Transaction(user: ObjectLiteral, book: ObjectLiteral) {
@@ -9,8 +9,8 @@ export default class TransactionFacade {
       .setUser(user)
       .setBook(book)
       .startAndFinishDate()
-      .build()
+      .build();
 
-    return BookTransaction.createBookTransaction(Transaction)
+    return BookTransaction.createBookTransaction(Transaction);
   }
 }
