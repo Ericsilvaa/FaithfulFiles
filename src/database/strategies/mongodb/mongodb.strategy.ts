@@ -1,27 +1,13 @@
 import { DataSource, MongoRepository } from "typeorm";
 import { IBaseStrategy } from "../../db/interfaces/IBaseSrategy";
-<<<<<<< HEAD:src/config/strategies/mongodb/mongodb.strategy.ts
-import { BookTransaction } from "../../db/mongodb/bookTransaction.entity";
-import { Book } from "../../../entities/postgres/book.entity";
-=======
 import { BookTransaction } from "../../entities/mongodb/bookTransaction.entity";
-import { Book } from "../../entities/postgres/book.entity";
-
->>>>>>> 768ccf01d80e950ce2814a988b75c082878e5ad0:src/database/strategies/mongodb/mongodb.strategy.ts
-
 export default class MongoDBStrategy implements IBaseStrategy {
   private db!: MongoRepository<BookTransaction>;
   constructor(private connectionDb: DataSource) {
     this.connectionDb = connectionDb;
   }
-<<<<<<< HEAD:src/config/strategies/mongodb/mongodb.strategy.ts
-  findAllByGenerics<T extends keyof Book>(
-    field: T,
-    value: Book[T],
-  ): Promise<T> {
-=======
+
   findAllByGenerics<T extends keyof any>(field: T, value: any[T]): Promise<T> {
->>>>>>> 768ccf01d80e950ce2814a988b75c082878e5ad0:src/database/strategies/mongodb/mongodb.strategy.ts
     throw new Error("Method not implemented.");
   }
 
