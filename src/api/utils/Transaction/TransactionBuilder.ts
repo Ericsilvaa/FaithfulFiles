@@ -1,10 +1,4 @@
-<<<<<<< HEAD:src/utils/Transaction/TransactionBuilder.ts
 import { ObjectLiteral } from "typeorm";
-import { BookTransaction } from "../../config/db/mongodb/bookTransaction.entity";
-=======
-import { ObjectLiteral, } from "typeorm"
-
->>>>>>> 768ccf01d80e950ce2814a988b75c082878e5ad0:src/api/utils/Transaction/TransactionBuilder.ts
 
 export default class TransactionBuilder {
   private transaction: ObjectLiteral = {};
