@@ -1,8 +1,8 @@
+import { dbDataSourcePostgres } from "../../../database/db/dataSource"
+import { Book } from "../../../database/entities/postgres/book.entity"
+import ContextStrategy from "../../../database/strategies/base/context.strategy"
+import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy"
 
-import { Book } from '../../../entities/postgres/book.entity'
-import { dbDataSourcePostgres } from '../../../config/db/dataSource'
-import ContextStrategy from '../../../config/strategies/base/context.strategy'
-import PostgresStrategy from '../../../config/strategies/postgres/postgres.strategy'
 
 
 const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'UserEntity')
@@ -33,7 +33,7 @@ describe('Postgres Strategy', function () {
       author: undefined,
       page_count: 384,
       publisher: undefined,
-      deleted_at: null,
+      deleted_at: undefined,
       description: 'Desiring God is a paradigm-shattering work that dramatically alters common perspectives on relating to God.',
       available: true,
       loan_count: 0
@@ -70,7 +70,7 @@ describe('Postgres Strategy', function () {
       description: 'Desiring God is a paradigm-shattering work that dramatically alters common perspectives on relating to God.',
       publisher: undefined,
       available: true,
-      deleted_at: null,
+      deleted_at: undefined,
       loan_count: 0
     }
 
@@ -94,7 +94,7 @@ describe('Postgres Strategy', function () {
       publisher: undefined,
       available: true,
       loan_count: 0,
-      deleted_at: null
+      deleted_at: undefined
     }
 
     expect(result).toEqual(expected)
