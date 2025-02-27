@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Permissions } from "./permissions.entity";
-import { UserEntity } from "../users/user.entity";
+import { User } from "../users/users.entity";
 
 @Entity()
 export class RoleEntity {
@@ -21,10 +21,10 @@ export class RoleEntity {
   @OneToMany(() => Permissions, (permission) => permission.role)
   permissions?: ObjectLiteral[];
 
-  @OneToMany(() => UserEntity, (user) => user.role)
-  users: UserEntity[] = [];
+  @OneToMany(() => User, (user) => user.role)
+  users: User[] = [];
 
-  constructor(name: string, users: UserEntity[]) {
+  constructor(name: string, users: User[]) {
     this.name = name;
     this.users = users;
   }
