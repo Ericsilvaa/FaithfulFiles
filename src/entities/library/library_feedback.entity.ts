@@ -1,14 +1,70 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UserEntity } from "../users/user.entity";
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import { Member } from "../users/members.entity";
+import { User } from "../users/users.entity";
 
-@Entity()
-export class LibraryFeedback {
-  @PrimaryGeneratedColumn()
-  id: number;
+export enum FeedbackType {
+  SUGGESTION = "suggestion",
+  COMPLAINT = "complaint",
+  PRAISE = "praise",
+  GENERAL = "general",
+}
 
-  @Column()
-  message: string;
+export enum FeedbackVisibility {
+  PUBLIC = "public",
+  PRIVATE = "private",
+  MEMBERS_ONLY = "members-only",
+}
 
-  @ManyToOne(() => User, (user) => user.feedbacks)
-  user: UserEntity;
+@Entity("library_feedback")
+export class LibraryFeedback extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
+
+  @ManyToOne(() => Member, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "member_id" })
+  member!: Member;
+
+  @Column({ type: "int" })
+  rating!: number;
+
+  @Column({ type: "enum", enum: FeedbackType, default: FeedbackType.GENERAL })
+  feedback_type!: FeedbackType;
+
+  @Column({ type: "text" })
+  comment!: string;
+
+  @Column({ type: "boolean", default: false })
+  is_anonymous!: boolean;
+
+  @Column({ type: "boolean", default: false })
+  is_approved!: boolean;
+
+  @ManyToOne(() => User, { nullable: true, onDelete: "SET NULL" })
+  @JoinColumn({ name: "approved_by" })
+  approved_by?: User;
+
+  @Column({ type: "boolean", default: false })
+  reported!: boolean;
+
+  @Column({
+    type: "enum",
+    enum: FeedbackVisibility,
+    default: FeedbackVisibility.PUBLIC,
+  })
+  visibility!: FeedbackVisibility;
+
+  @CreateDateColumn()
+  created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
 }
