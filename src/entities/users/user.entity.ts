@@ -1,4 +1,3 @@
-
 import {
   Column,
   Entity,
@@ -9,12 +8,11 @@ import {
 } from "typeorm";
 
 import { IsEmail, MinLength } from "class-validator";
-import { Role } from "./roles.entity";
 import { EnumBrazilianStates } from "../../utils/enums/AddressEnum";
 import { ObjectId } from "mongodb";
-import { Book } from "./book.entity";
 import { IAddress } from "../../interfaces/IAddress";
-
+import { BookEntity } from "../books/book.entity";
+import { RoleEntity } from "../permissions/roles.entity";
 
 @Entity()
 export class UserEntity {
@@ -42,24 +40,24 @@ export class UserEntity {
   @Column({ nullable: true })
   avatar_url?: string;
 
-  @Column({ type: 'json', nullable: true, default: { account: 0 } })
-  transactions?: { account: number, current_transaction: ObjectId }
+  @Column({ type: "json", nullable: true, default: { account: 0 } })
+  transactions?: { account: number; current_transaction: ObjectId };
 
-  @ManyToOne(() => Role, role => role.users)
+  @ManyToOne(() => RoleEntity, (role) => role.users)
   @JoinColumn()
-  role: Role;
+  role: RoleEntity;
 
-  @Column({ type: 'json', nullable: true, })
-  address?: IAddress
+  @Column({ type: "json", nullable: true })
+  address?: IAddress;
 
-  @OneToMany(() => Book, book => book.owner, { nullable: true }) // Relacionamento OneToMany com Book, opcional
-  owner_book?: Book[];
+  @OneToMany(() => BookEntity, (book) => book.owner, { nullable: true }) // Relacionamento OneToMany com Book, opcional
+  owner_book?: BookEntity[];
 
   constructor(
     username: string,
     password_hash: string,
     email: string,
-    role: Role,
+    role: RoleEntity,
     token: string,
     address?: {
       cep: string;
@@ -73,7 +71,7 @@ export class UserEntity {
       ddd?: string;
       siafi?: string;
     },
-    transactions?: { account: number, current_transaction: ObjectId }
+    transactions?: { account: number; current_transaction: ObjectId },
   ) {
     this.username = username;
     this.password_hash = password_hash;
@@ -92,7 +90,19 @@ export class UserEntity {
       user.role,
       user.token,
       user.address,
-      user.transactions
+      user.transactions,
     );
   }
 }
+
+// @Entity()
+// export class User {
+//   @PrimaryGeneratedColumn()
+//   id: number;
+
+//   @Column()
+//   name: string;
+
+//   @OneToMany(() => LibraryFeedback, (feedback) => feedback.user)
+//   feedbacks: LibraryFeedback[];
+// }

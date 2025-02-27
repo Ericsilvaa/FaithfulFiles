@@ -8,10 +8,10 @@ import {
 import { Author } from "./author.entity";
 import { Publisher } from "./publisher.entity";
 import { IsNotEmpty } from "class-validator";
-import { UserEntity } from "./user.entity";
+import { UserEntity } from "../users/user.entity";
 
 @Entity()
-export class Book {
+export class BookEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -40,7 +40,7 @@ export class Book {
   @DeleteDateColumn({ name: "deleted_at", type: "boolean" })
   deleted_at?: Boolean | null;
 
-  @ManyToOne(() => UserEntity, user => user.owner_book, { nullable: true }) // Relacionamento ManyToOne com UserEntity
+  @ManyToOne(() => UserEntity, (user) => user.owner_book, { nullable: true }) // Relacionamento ManyToOne com UserEntity
   owner?: UserEntity;
 
   constructor(
@@ -50,7 +50,7 @@ export class Book {
     available: boolean,
     loan_count: number,
     author?: Author,
-    publisher?: Publisher
+    publisher?: Publisher,
   ) {
     this.title = title;
     this.page_count = page_count;
@@ -61,15 +61,15 @@ export class Book {
     this.publisher = publisher;
   }
 
-  static createBook(book: Book): Book {
-    return new Book(
+  static createBook(book: BookEntity): BookEntity {
+    return new BookEntity(
       book.title,
       book.page_count,
       book.description,
       book.available,
       book.loan_count,
       book.author,
-      book.publisher
+      book.publisher,
     );
   }
 }
