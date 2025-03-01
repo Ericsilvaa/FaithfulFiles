@@ -8,6 +8,7 @@ export default class UserController {
   constructor(private context: ContextStrategy) {}
 
   async getCurrentUser(req: Request, res: Response) {
+    if (!req.user) return res.status(401).send("Usuario não autenticado");
     const { email } = req.user;
 
     try {
@@ -26,6 +27,7 @@ export default class UserController {
   }
 
   async updateUser(req: Request, res: Response) {
+    if (!req.user) return res.status(401).send("Usuario não autenticado");
     const { email } = req.user;
     const user = <User>req.body;
 
