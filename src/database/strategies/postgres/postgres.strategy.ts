@@ -19,18 +19,23 @@ export default class PostgresStrategy {
 
   static async connect() {
     try {
+      console.log("📡 Connecting to database...");
       const connection = await AppDataSource.initialize();
 
-      if (!connection.isInitialized)
-        throw new Error("Error initial database. connection");
+      if (!connection.isInitialized) {
+        throw new Error("❌ Database initialization failed.");
+      }
+
       console.log("✅ Database connected!");
       console.log(
         "📦 Entities loaded:",
         AppDataSource.entityMetadatas.map((e) => e.name),
       );
+
       return connection;
     } catch (error) {
-      console.log(error);
+      console.error("❌ Database connection error:", error);
+      process.exit(1);
     }
   }
 

@@ -11,18 +11,18 @@ const MOCK_PERMISSIONS = {
 describe("Permissions Controller", () => {
   let connection: DataSource;
   let context: ContextStrategy;
-  beforeAll(async () => {
-    connection = (await PostgresStrategy.connect()) as DataSource;
-    const repository = PostgresStrategy.createRepository(
-      AppDataSource,
-      "Permissions",
-    );
-    context = new ContextStrategy(new PostgresStrategy(repository));
-  });
+  // beforeAll(async () => {
+  //   connection = (await PostgresStrategy.connect()) as DataSource;
+  //   const repository = PostgresStrategy.createRepository(
+  //     AppDataSource,
+  //     "Permissions",
+  //   );
+  //   context = new ContextStrategy(new PostgresStrategy(repository));
+  // });
 
-  afterAll(async () => {
-    await connection.destroy();
-  });
+  // afterAll(async () => {
+  //   await connection.destroy();
+  // });
 
   // test('#Create Permissions, you should create a new Permissions', async () => {
   //   const { name } = MOCK_PERMISSIONS
