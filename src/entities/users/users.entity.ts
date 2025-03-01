@@ -7,6 +7,9 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from "typeorm";
+import { ValueTransformer } from "typeorm";
+import { IAddress } from "../../api/interfaces/IAddress";
+import { UserRoleType } from "./user_roles.entity";
 
 export enum UserStatus {
   ACTIVE = "active",
@@ -47,8 +50,17 @@ export enum ChurchRole {
   MEMBER = "member",
 }
 
-import { ValueTransformer } from "typeorm";
-import { IAddress } from "../../api/interfaces/IAddress";
+export enum MembershipType {
+  VISITOR = "visitor",
+  MEMBER = "member",
+  ACTIVE_MEMBER = "active_member",
+  VOLUNTEER = "volunteer",
+  LEADER = "leader",
+  MINISTER = "minister",
+  STAFF = "staff",
+  ADMIN = "admin",
+  SUPER_ADMIN = "super_admin",
+}
 
 export const AddressTransformer: ValueTransformer = {
   to: (value: IAddress | null) => (value ? JSON.stringify(value) : "{}"),
@@ -70,13 +82,13 @@ export class User extends BaseEntity {
   password_hash!: string;
 
   @Column({ type: "text", nullable: true })
-  password_salt?: string;
+  password_salt?: string | null;
 
   @Column({ type: "text", unique: true, nullable: true })
-  auth_token?: string;
+  auth_token?: string | null;
 
   @Column({ type: "varchar", length: 15, nullable: true })
-  phone?: string;
+  phone?: string | null;
 
   @Column({
     type: "jsonb",
@@ -94,11 +106,16 @@ export class User extends BaseEntity {
   @Column({ type: "enum", enum: UserStatus, default: UserStatus.ACTIVE })
   status!: UserStatus;
 
-  @Column({ type: "enum", enum: UserRole, nullable: false })
-  role!: UserRole;
+  @Column({
+    type: "enum",
+    enum: UserRoleType,
+    nullable: false,
+    default: UserRoleType.USER,
+  })
+  role!: UserRoleType;
 
   @Column({ type: "jsonb", default: () => "'{}'" })
-  permissions!: object;
+  permissions!: Record<string, any>;
 
   @Column({ type: "int", default: 0 })
   reading_goal!: number;
@@ -107,23 +124,41 @@ export class User extends BaseEntity {
   books_read!: number;
 
   @Column({ type: "enum", enum: ChurchRole, nullable: true })
-  church_role?: ChurchRole;
+  church_role?: ChurchRole | null;
+
+  @Column({ type: "enum", enum: MembershipType, nullable: true })
+  membership_type?: MembershipType | null;
 
   @Column({ type: "text", nullable: true })
-  profile_picture?: string;
+  profile_picture?: string | null;
+
+  @Column({ type: "varchar", length: 20, nullable: true })
+  whatsapp?: string | null;
+
+  @Column({ type: "text", nullable: true })
+  instagram?: string | null;
+
+  @Column({ type: "text", nullable: true })
+  facebook?: string | null;
+
+  @Column({ type: "text", nullable: true })
+  telegram?: string | null;
+
+  @Column({ type: "text", nullable: true })
+  website?: string | null;
 
   @Column({ type: "timestamp", nullable: true })
-  last_login?: Date;
+  last_login?: Date | null;
 
-  @CreateDateColumn()
-  registered_at!: Date;
+  @CreateDateColumn({ type: "timestamp" })
+  created_at!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "timestamp" })
   updated_at!: Date;
 
-  @DeleteDateColumn()
-  deleted_at?: Date;
+  @DeleteDateColumn({ type: "timestamp", nullable: true })
+  deleted_at?: Date | null;
 
   @Column({ type: "jsonb", default: () => "'{}'" })
-  preferences!: object;
+  preferences!: Record<string, any>;
 }
