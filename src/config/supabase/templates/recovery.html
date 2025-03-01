@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redefinir Senha - Biblioteca da Igreja Batista do Henrique Jorge</title>
+  <style type="text/css">
+    /* Reset styles */
+    body,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    table,
+    td {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Container styles */
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 20px;
+    }
+
+    /* Logo styles */
+    .logo-container {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 60px;
+      object-fit: cover;
+    }
+
+    .church-name {
+      color: #0b3d91;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    /* Content styles */
+    .content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #0b3d91;
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    p {
+      color: #333333;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .security-notice {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .security-notice p {
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #555555;
+    }
+
+    .security-notice p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Button styles */
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #0b3d91;
+      color: #ffffff !important;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #062864;
+    }
+
+    /* Footer styles */
+    .footer {
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #eeeeee;
+      margin-top: 20px;
+    }
+
+    .footer p {
+      color: #666666;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .footer a {
+      color: #0b3d91;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 600px) {
+      .email-container {
+        width: 100% !important;
+      }
+
+      .content,
+      .footer {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      p {
+        font-size: 15px;
+      }
+
+      .button {
+        padding: 10px 20px;
+        font-size: 15px;
+      }
+
+      .security-notice {
+        margin: 15px 0;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" style="background-color: #f5f5f5; padding: 20px 0;">
+        <table border="0" cellpadding="0" cellspacing="0" width="600" class="email-container">
+          <!-- Logo and Church Name -->
+          <tr>
+            <td align="center" class="logo-container">
+              <img src="https://xzjeohmlcxrqarpliddu.supabase.co/storage/v1/object/sign/library_ibhj/logo-ibhj.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsaWJyYXJ5X2liaGovbG9nby1pYmhqLmpwZyIsImlhdCI6MTc0MDg1NzQ2MywiZXhwIjoxNzcyMzkzNDYzfQ.b__WngGlyTvd6TiGr73wtNy9pAohHs2WY2bGfbG31jM" alt="Logo da Igreja Batista do Henrique Jorge" class="logo">
+              <div class="church-name">Igreja Batista do Henrique Jorge</div>
+            </td>
+          </tr>
+
+          <!-- Content -->
+          <tr>
+            <td class="content">
+              <h2>Redefinição de Senha</h2>
+              <p>Olá!</p>
+              <p>Recebemos uma solicitação para redefinir a senha da sua conta na Biblioteca da Igreja Batista do Henrique Jorge.</p>
+              <p>Para criar uma nova senha, clique no botão abaixo:</p>
+
+              <div class="button-container">
+                <a href="{{.ConfirmationURL}}" class="button">Redefinir Senha</a>
+              </div>
+
+              <div class="security-notice">
+                <p><strong>Informações importantes:</strong></p>
+                <p>• Este link é válido por apenas 1 hora</p>
+                <p>• Se você não solicitou a redefinição de senha, por favor, ignore este email</p>
+                <p>• Para sua segurança, após redefinir a senha, você será desconectado de todos os dispositivos</p>
+              </div>
+
+              <p>Se você não solicitou esta alteração, recomendamos que entre em contato com nosso suporte imediatamente.</p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td class="footer">
+              <p>Precisa de ajuda? <a href="mailto:suporte@bibliotecaibjh.com.br">Entre em contato com nosso suporte</a></p>
+              <p>Este é um email automático. Por favor, não responda a esta mensagem.</p>
+              <p>&copy; 2025 Biblioteca da Igreja Batista do Henrique Jorge. Todos os direitos reservados.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>

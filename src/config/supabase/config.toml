@@ -1,0 +1,11 @@
+[auth.email.templates.confirmation]
+subject = "Confirme seu Cadastro - Biblioteca IBHJ"
+content_path = "supabase/templates/confirmation.html"
+
+[auth.email.templates.invite]
+subject = "Você foi convidado - Biblioteca IBHJ"
+content_path = "supabase/templates/invite.html"
+
+[auth.email.templates.recovery]
+subject = "Recupere sua Senha - Biblioteca IBHJ"
+content_path = "supabase/templates/recovery.html"
