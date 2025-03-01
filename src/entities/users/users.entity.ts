@@ -78,9 +78,6 @@ export class User extends BaseEntity {
   @Column({ type: "varchar", length: 255, unique: true })
   email!: string;
 
-  @Column({ type: "text" })
-  password_hash!: string;
-
   @Column({ type: "text", nullable: true })
   password_salt?: string | null;
 
@@ -128,6 +125,9 @@ export class User extends BaseEntity {
 
   @Column({ type: "enum", enum: MembershipType, nullable: true })
   membership_type?: MembershipType | null;
+
+  @Column({ type: "uuid", unique: true, nullable: false })
+  auth_id!: string;
 
   @Column({ type: "text", nullable: true })
   profile_picture?: string | null;
