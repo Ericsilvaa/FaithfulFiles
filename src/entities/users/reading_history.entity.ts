@@ -30,11 +30,8 @@ export class ReadingHistory extends BaseEntity {
   @Column({ type: "timestamp", nullable: true })
   finished_at?: Date;
 
-  @Column({ type: "interval", nullable: true })
-  reading_duration?: string;
-
-  @Column({ type: "decimal", precision: 5, scale: 2, default: 0 })
-  progress_percentage!: number;
+  @Column({ type: "varchar", nullable: true })
+  reading_duration?: string; // Simula INTERVAL como string
 
   @Column({ type: "int", nullable: true })
   rating?: number;
@@ -47,4 +44,9 @@ export class ReadingHistory extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at!: Date;
+
+  // ✅ Getter para calcular progress_percentage sem salvar no banco
+  get progress_percentage(): number {
+    return this.finished_at ? 100 : 0;
+  }
 }

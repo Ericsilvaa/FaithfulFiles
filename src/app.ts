@@ -41,7 +41,7 @@ import "reflect-metadata";
 import compression from "compression";
 import router from "./api/routes/index.routes";
 import { supabase } from "./config/supabaseClient";
-import { errorHandler, logRequests } from "./middlewares";
+import { errorHandler, logRequests } from "./api/middleware/errorHandler";
 
 export const createApp = (): Express => {
   const app = express();

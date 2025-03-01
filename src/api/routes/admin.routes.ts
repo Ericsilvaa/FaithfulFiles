@@ -1,14 +1,11 @@
 import { Router } from "express";
-import Auth from "../middleware/isAuth";
-import { roles } from "../middleware/roles";
-
 import { Repository } from "typeorm";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import AdminController from "../controllers/admin.controller";
 import { AppDataSource } from "../../database/dataSource";
-import { UserRole } from "../../entities/users/user_roles.entity";
-
+import { UserRole, UserRoleType } from "../../entities/users/user_roles.entity";
+import Auth from "../middleware/Auth";
 const router = Router();
 
 const repository = PostgresStrategy.createRepository(
@@ -22,7 +19,10 @@ const adminController = new AdminController(
   repositoryRole as Repository<UserRole>,
 );
 
-router.use(Auth.isMember, roles(["admin"]));
+router.use(
+  Auth.isAuthenticated,
+  Auth.authorizeRoles([UserRoleType.ADMIN, UserRoleType.SUPER_ADMIN]),
+);
 
 router.get("/", (req, res) => res.send("Welcome to the Page Admin"));
 router.get("/accounts", adminController.getAllUsers.bind(adminController));

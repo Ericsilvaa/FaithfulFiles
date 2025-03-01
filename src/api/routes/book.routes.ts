@@ -1,72 +1,84 @@
 import express from "express";
-
-import Auth from "../middleware/isAuth";
-import { roles } from "../middleware/roles";
+import Auth from "../middleware/Auth";
 import { AppDataSource } from "../../database/dataSource";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
-import BookController from "../controllers/book.controller";
+import { BookController } from "../controllers/books/book.controller";
+import { UserRoleType } from "../../entities/users/user_roles.entity";
 
-// 'htttp =? /library/books/'
 const router = express.Router();
 
-const repository = PostgresStrategy.createRepository(AppDataSource, "Book");
-const repositoryAuthor = PostgresStrategy.createRepository(
+// ✅ Initialize Repositories & Controller
+const bookRepository = PostgresStrategy.createRepository(AppDataSource, "Book");
+const authorRepository = PostgresStrategy.createRepository(
   AppDataSource,
   "Author",
 );
-const repositoryPublisher = PostgresStrategy.createRepository(
+const publisherRepository = PostgresStrategy.createRepository(
   AppDataSource,
   "Publisher",
 );
-const repositoryUser = PostgresStrategy.createRepository(
+const userRepository = PostgresStrategy.createRepository(
   AppDataSource,
   "UserEntity",
 );
-const context = new ContextStrategy(new PostgresStrategy(repository));
-const bookController = new BookController(
-  context,
-  repositoryAuthor,
-  repositoryPublisher,
-  repositoryUser,
-);
 
+const context = new ContextStrategy(new PostgresStrategy(bookRepository));
+const bookController = new BookController();
+
+// ✅ Routes
 router.get(
   "/",
-  Auth.isMember,
-  roles(["admin", "default", "owner"]),
-  bookController.getAllBooks.bind(bookController),
+  Auth.isAuthenticated,
+  Auth.authorizeRoles([
+    UserRoleType.ADMIN,
+    UserRoleType.USER,
+    UserRoleType.MODERATOR,
+  ]),
+  (req, res) => bookController.getBooks(req, res),
 );
-router.get(
-  "/filter",
-  Auth.isMember,
-  roles(["admin", "default", "owner"]),
-  bookController.getBookByFilters.bind(bookController),
-);
+
+// router.get(
+//   "/filter",
+//   Auth.isAuthenticated,
+//   Auth.authorizeRoles([
+//     UserRoleType.ADMIN,
+//     UserRoleType.USER,
+//     UserRoleType.MODERATOR,
+//   ]),
+//   (req, res) => bookController.getBookByFilters(req, res),
+// );
+
 router.get(
   "/:book_id",
-  Auth.isMember,
-  roles(["admin", "default", "owner"]),
-  bookController.getBookById.bind(bookController),
+  Auth.isAuthenticated,
+  Auth.authorizeRoles([
+    UserRoleType.ADMIN,
+    UserRoleType.USER,
+    UserRoleType.MODERATOR,
+  ]),
+  (req, res) => bookController.getBookById(req, res),
 );
 
 router.post(
-  "/add",
-  Auth.isMember,
-  roles(["admin", "owner"]),
-  bookController.createBook.bind(bookController),
+  "/",
+  Auth.isAuthenticated,
+  Auth.authorizeRoles([UserRoleType.ADMIN, UserRoleType.MODERATOR]),
+  (req, res) => bookController.createBook(req, res),
 );
+
 router.put(
-  "/update/:book_id",
-  Auth.isMember,
-  roles(["admin", "owner"]),
-  bookController.updateBook.bind(bookController),
+  "/:book_id",
+  Auth.isAuthenticated,
+  Auth.authorizeRoles([UserRoleType.ADMIN, UserRoleType.MODERATOR]),
+  (req, res) => bookController.updateBook(req, res),
 );
+
 router.delete(
-  "/remove/:book_id",
-  Auth.isMember,
-  roles(["admin", "owner"]),
-  bookController.deleteBook.bind(bookController),
+  "/:book_id",
+  Auth.isAuthenticated,
+  Auth.authorizeRoles([UserRoleType.ADMIN, UserRoleType.MODERATOR]),
+  (req, res) => bookController.deleteBook(req, res),
 );
 
 export default router;

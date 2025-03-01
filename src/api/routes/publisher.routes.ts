@@ -1,11 +1,11 @@
 import { Router } from "express";
-
-import Auth from "../middleware/isAuth";
-import { roles } from "../middleware/roles";
-import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
-import ContextStrategy from "../../database/strategies/base/context.strategy";
-import PublisherController from "../controllers/publisher.controller";
+import { UserRoleType } from "../../entities/users/user_roles.entity";
 import { AppDataSource } from "../../database/dataSource";
+import ContextStrategy from "../../database/strategies/base/context.strategy";
+import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
+
+import { PublisherController } from "../controllers/books/publisher.controller";
+import Auth from "../middleware/Auth";
 
 const router = Router();
 
@@ -14,24 +14,18 @@ const repository = PostgresStrategy.createRepository(
   "Publisher",
 );
 const context = new ContextStrategy(new PostgresStrategy(repository));
-const publisherController = new PublisherController(context);
+const publisherController = new PublisherController();
 
-router.use(Auth.isMember, roles(["admin"]));
+router.use(Auth.isAuthenticated, Auth.authorizeRoles([UserRoleType.ADMIN]));
 
-router.get("/", publisherController.getAllPublishers.bind(publisherController));
-router.get(
-  "/:publisher_id",
-  publisherController.getPublisherById.bind(publisherController),
+router.get("/", (req, res) => publisherController.getPublishers(req, res));
+router.get("/:publisher_id", (req, res) =>
+  publisherController.getPublisherById(req, res),
 );
-// router.get('/filter', PublisherController.getPublisherByFilters.bind(PublisherController))
 
-router.post(
-  "/add",
-  publisherController.createOrUpdatePublisher.bind(publisherController),
-);
-router.put(
-  "/updated/:publisher_id",
-  publisherController.createOrUpdatePublisher.bind(publisherController),
+router.post("/", (req, res) => publisherController.createPublisher(req, res));
+router.put("/:publisher_id", (req, res) =>
+  publisherController.updatePublisher(req, res),
 );
 
 export default router;

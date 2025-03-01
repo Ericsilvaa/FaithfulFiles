@@ -41,10 +41,14 @@ export class ReadingGoal extends BaseEntity {
   @Column({ type: "int", default: 0 })
   progress!: number;
 
-  @Column({ type: "enum", enum: GoalStatus, default: GoalStatus.ON_TRACK })
+  @Column({ type: "varchar", length: 20, default: GoalStatus.ON_TRACK })
   status!: GoalStatus;
 
-  @Column({ type: "enum", enum: GoalType, default: GoalType.BOOKS })
+  @Column({
+    type: "varchar",
+    length: 10,
+    default: GoalType.BOOKS,
+  })
   goal_type!: GoalType;
 
   @Column({ type: "text", nullable: true })
@@ -67,4 +71,9 @@ export class ReadingGoal extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at!: Date;
+
+  // ✅ Getter para calcular `progress_percentage` dinamicamente
+  get progress_percentage(): number {
+    return this.goal > 0 ? (this.progress / this.goal) * 100 : 0;
+  }
 }
