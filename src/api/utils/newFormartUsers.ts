@@ -1,22 +1,18 @@
-import { UserEntity } from "../../database/entities/postgres/user.entity"
+import { User } from "../../entities/users/users.entity";
 
-function newFormatUsers(users: UserEntity[]) {
-
-  const newFormat = users.map(user => ({
+function newFormatUsers(users: User[]) {
+  const newFormat = users.map((user) => ({
     id: user.id,
-    username: user.username,
+    username: user.name,
     email: user.email,
-    role: user.role.name
-  }))
+    role: user.role,
+  }));
 
-  const users_admin = newFormat.filter(user => user.role === 'admin')
-  const users_default = newFormat.filter(user => user.role === 'default')
-  const users_owner = newFormat.filter(user => user.role === 'owner')
+  const users_admin = newFormat.filter((user) => user.role === "admin");
+  const users_default = newFormat.filter((user) => user.role === "user");
+  const users_moderator = newFormat.filter((user) => user.role === "moderator");
 
-  return { users_admin, users_default, users_owner }
-
+  return { users_admin, users_default, users_moderator };
 }
 
-export {
-  newFormatUsers
-}
+export { newFormatUsers };

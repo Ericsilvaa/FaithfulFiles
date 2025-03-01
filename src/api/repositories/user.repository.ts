@@ -1,11 +1,10 @@
 import { Repository } from "typeorm";
-import { UserEntity } from "../../database/entities/postgres/user.entity";
+import { User } from "../../entities/users/users.entity";
 
 export default class UserRepository {
-  private userRepository: Repository<UserEntity>
+  private userRepository: Repository<User>;
 
-  constructor(userRepository: Repository<UserEntity>) {
+  constructor(userRepository: Repository<User>) {
     this.userRepository = userRepository;
   }
-
 }

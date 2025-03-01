@@ -32,13 +32,13 @@ export class ReadingGoal extends BaseEntity {
   @JoinColumn({ name: "member_id" })
   member!: Member;
 
-  @Column({ type: "smallint", check: "year >= 2000" })
+  @Column({ type: "smallint" })
   year!: number;
 
-  @Column({ type: "int", default: 0, check: "goal >= 0" })
+  @Column({ type: "int", default: 0 })
   goal!: number;
 
-  @Column({ type: "int", default: 0, check: "progress >= 0" })
+  @Column({ type: "int", default: 0 })
   progress!: number;
 
   @Column({ type: "enum", enum: GoalStatus, default: GoalStatus.ON_TRACK })
@@ -59,7 +59,7 @@ export class ReadingGoal extends BaseEntity {
   })
   motivation_message!: string;
 
-  @Column({ type: "int", default: 0, check: "reward_points >= 0" })
+  @Column({ type: "int", default: 0 })
   reward_points!: number;
 
   @CreateDateColumn()
