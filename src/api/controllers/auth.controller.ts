@@ -1,89 +1,97 @@
-
-import bcrypty from 'bcryptjs'
-import { validate } from "class-validator"
-import { Request, Response } from "express"
-
-import { Repository } from "typeorm"
-import ContextStrategy from '../../database/strategies/base/context.strategy'
-import { Role } from '../../database/entities/postgres/roles.entity'
-import { UserEntity } from '../../database/entities/postgres/user.entity'
-import TokenValidation from '../validations/token'
+import bcrypty from "bcryptjs";
+import { validate } from "class-validator";
+import { Request, Response } from "express";
+import { Equal, Repository } from "typeorm";
+import ContextStrategy from "../../database/strategies/base/context.strategy";
+import TokenValidation from "../validations/token";
+import { UserRole } from "../../entities/users/user_roles.entity";
+import { User } from "../../entities/users/users.entity";
 
 export default class AuthController {
-  constructor(private context: ContextStrategy, private repositoryRole?: Repository<Role>) { }
+  constructor(
+    private context: ContextStrategy,
+    private repositoryRole?: Repository<UserRole>,
+  ) {}
 
   async registerUser(req: Request, res: Response) {
-    const { email, username, password_hash: password } = <UserEntity>req.body
+    const { email, name, password } = req.body;
     try {
-      const password_hash = bcrypty.hashSync(password, 10)
+      const password_hash = bcrypty.hashSync(password, 10);
 
       const emailExists = await this.context.findOne({ email });
 
-      if (emailExists) res.status(404).json({ message: 'Email já cadastrado, Por favor escolha outro email!' });
+      if (emailExists)
+        res.status(404).json({
+          message: "Email já cadastrado, Por favor escolha outro email!",
+        });
 
-      const token = TokenValidation.generateToken({ email, username })
-      const role = await this.repositoryRole?.findOne({ where: { name: 'default' } }) as Role
+      const token = TokenValidation.generateToken({ email, name });
+      // const role = (await this.repositoryRole?.findOne({
+      //   where: { role: Equal("user") },
+      // })) as UserRole;
 
-      const newUser = UserEntity.createUser({
-        id: 0,
-        email, username, password_hash, token, role,
-      })
+      const newUser = User.create({
+        email,
+        name,
+        password_hash,
+        auth_token: token,
+      });
 
       // necessário realizar middleware
-      const errors = await validate(newUser)
+      const errors = await validate(newUser);
 
       if (errors.length !== 0) {
-        return res.status(400).json(errors.map(err => {
-          const [[validation, message]] = Object.entries({ ...err.constraints })
+        return res.status(400).json(
+          errors.map((err) => {
+            const [[validation, message]] = Object.entries({
+              ...err.constraints,
+            });
 
-          return {
-            type_error: validation,
-            field_error: err.property,
-            message_error: message
-          }
-        }))
+            return {
+              type_error: validation,
+              field_error: err.property,
+              message_error: message,
+            };
+          }),
+        );
       }
 
+      await this.context.save(newUser);
 
-      await this.context.save(newUser)
-
-      return res.status(201).json({ success: true, message: 'Usúario criado com sucesso!' })
-    } catch (error) {
       return res
-        .status(500)
-        .json({ error, message: 'deu ruim!' });
+        .status(201)
+        .json({ success: true, message: "Usúario criado com sucesso!" });
+    } catch (error) {
+      return res.status(500).json({ error, message: "deu ruim!" });
     }
   }
 
-
   async loginUser(req: Request, res: Response) {
     try {
-      const { email, password_hash } = <UserEntity>req.body
+      const { email, password_hash } = <User>req.body;
 
-      const user = await this.context.findOne({ email })
-      if (!user) return res.status(404).json({ message: 'Email Inválido!' });
+      const user = await this.context.findOne({ email });
+      if (!user) return res.status(404).json({ message: "Email Inválido!" });
 
       if (!bcrypty.compareSync(password_hash, user.password_hash)) {
         return res
           .status(401)
-          .json('Email ou senha inválido, verifique e tente novamente!');
+          .json("Email ou senha inválido, verifique e tente novamente!");
       }
 
-      const token = TokenValidation.generateToken(user)
+      const token = TokenValidation.generateToken(user);
 
-      await this.context.update(user.id, { ...user, token })
-      const userLogado = await this.context.findOne({ email }, ['owner_book'])
-      Reflect.deleteProperty(userLogado, 'password_hash')
+      await this.context.update(user.id, { ...user, token });
+      const userLogado = await this.context.findOne({ email }, ["owner_book"]);
+      Reflect.deleteProperty(userLogado, "password_hash");
 
       return res.status(200).json({
         error: false,
-        message: 'Cliente logado com sucesso!',
-        user: userLogado
+        message: "Cliente logado com sucesso!",
+        user: userLogado,
       });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ error, message: 'deu ruim!' });
+      return res.status(500).json({ error, message: "deu ruim!" });
     }
   }
 }
