@@ -1,97 +1,156 @@
-import bcrypty from "bcryptjs";
-import { validate } from "class-validator";
 import { Request, Response } from "express";
-import { Equal, Repository } from "typeorm";
-import ContextStrategy from "../../database/strategies/base/context.strategy";
-import TokenValidation from "../validations/token";
-import { UserRole } from "../../entities/users/user_roles.entity";
-import { User } from "../../entities/users/users.entity";
+import { responseHandler } from "../utils/responseHandler";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export default class AuthController {
-  constructor(
-    private context: ContextStrategy,
-    private repositoryRole?: Repository<UserRole>,
-  ) {}
+export class AuthController {
+  private supabase: SupabaseClient;
+
+  constructor(supabaseClient: SupabaseClient) {
+    this.supabase = supabaseClient;
+  }
 
   async registerUser(req: Request, res: Response) {
     const { email, name, password } = req.body;
+
     try {
-      const password_hash = bcrypty.hashSync(password, 10);
-
-      const emailExists = await this.context.findOne({ email });
-
-      if (emailExists)
-        res.status(404).json({
-          message: "Email já cadastrado, Por favor escolha outro email!",
+      const { data: authUser, error: authError } =
+        await this.supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              name,
+            },
+          },
         });
 
-      const token = TokenValidation.generateToken({ email, name });
-      // const role = (await this.repositoryRole?.findOne({
-      //   where: { role: Equal("user") },
-      // })) as UserRole;
-
-      const newUser = User.create({
-        email,
-        name,
-        password_hash,
-        auth_token: token,
-      });
-
-      // necessário realizar middleware
-      const errors = await validate(newUser);
-
-      if (errors.length !== 0) {
-        return res.status(400).json(
-          errors.map((err) => {
-            const [[validation, message]] = Object.entries({
-              ...err.constraints,
-            });
-
-            return {
-              type_error: validation,
-              field_error: err.property,
-              message_error: message,
-            };
-          }),
-        );
+      if (authError || !authUser.user) {
+        return responseHandler({
+          res,
+          status: 400,
+          message: authError?.message || "Erro ao criar usuário!",
+        });
       }
 
-      await this.context.save(newUser);
+      const { data: newUser, error: insertError } = await this.supabase
+        .from("users")
+        .upsert(
+          [
+            {
+              auth_id: authUser.user.id,
+              email,
+              name,
+              last_login: authUser.user.last_sign_in_at,
+            },
+          ],
+          { onConflict: "auth_id" },
+        )
+        .select()
+        .single();
 
-      return res
-        .status(201)
-        .json({ success: true, message: "Usúario criado com sucesso!" });
+      if (insertError) {
+        return responseHandler({
+          res,
+          status: 500,
+          message: "Erro ao criar usuário no banco de dados!",
+          error: insertError,
+        });
+      }
+
+      const data = {
+        id: newUser.id,
+        auth_id: authUser.user.id,
+        email: newUser.email,
+        name: newUser.name,
+      };
+
+      return responseHandler({
+        res,
+        status: 201,
+        message: "Usuário registrado com sucesso!",
+        data,
+      });
     } catch (error) {
-      return res.status(500).json({ error, message: "deu ruim!" });
+      return responseHandler({
+        res,
+        status: 500,
+        message: "Erro interno do servidor!",
+        error,
+      });
     }
   }
 
   async loginUser(req: Request, res: Response) {
+    const { email, password } = req.body;
+
     try {
-      const { email, password_hash } = <User>req.body;
+      // 🔹 Autenticação via Supabase Auth
+      const { data: authUser, error: authError } =
+        await this.supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      const user = await this.context.findOne({ email });
-      if (!user) return res.status(404).json({ message: "Email Inválido!" });
-
-      if (!bcrypty.compareSync(password_hash, user.password_hash)) {
-        return res
-          .status(401)
-          .json("Email ou senha inválido, verifique e tente novamente!");
+      if (authError || !authUser.user || !authUser.session) {
+        return responseHandler({
+          res,
+          status: 401,
+          message: authError?.message || "Credenciais inválidas!",
+        });
       }
 
-      const token = TokenValidation.generateToken(user);
+      // 🔹 Gerando os dados para atualização
+      const auth_id = authUser.user.id;
+      const auth_token = authUser.session.access_token;
+      const last_login = new Date().toISOString();
+      const name = authUser.user.user_metadata?.name || "Usuário";
 
-      await this.context.update(user.id, { ...user, token });
-      const userLogado = await this.context.findOne({ email }, ["owner_book"]);
-      Reflect.deleteProperty(userLogado, "password_hash");
+      const { error: updateError } = await this.supabase
+        .from("users")
+        .upsert(
+          [
+            {
+              auth_id,
+              email,
+              name,
+              auth_token,
+              last_login,
+            },
+          ],
+          { onConflict: "auth_id" },
+        ) // 🔹 Se já existir, apenas atualiza
+        .select()
+        .single();
 
-      return res.status(200).json({
-        error: false,
+      if (updateError) {
+        return responseHandler({
+          res,
+          status: 500,
+          message: "Erro ao atualizar os dados do usuário no banco de dados!",
+          error: updateError,
+        });
+      }
+
+      // 🔹 Retornando os dados do usuário autenticado
+      return responseHandler({
+        res,
+        status: 200,
         message: "Cliente logado com sucesso!",
-        user: userLogado,
+        data: {
+          auth_id,
+          email,
+          name,
+          auth_token,
+          last_login,
+        },
       });
     } catch (error) {
-      return res.status(500).json({ error, message: "deu ruim!" });
+      return responseHandler({
+        res,
+        status: 500,
+        message: "Erro interno do servidor!",
+        error,
+      });
     }
   }
 }

@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 
-const secretKey = process.env.NODE_ENV_JWT_SECRET_KEY! || "defaultSecret";
+const secretKey = process.env.NODE_ENV_JWT_SECRET_KEY!;
 
 export default class TokenValidation {
-  static generateToken = ({ email, name }: { email: string; name: string }) => {
+  static generateToken = ({ email, id }: { email?: string; id: string }) => {
     const payload = {
       email,
-      name,
+      id,
     };
 
     const options = { expiresIn: 60 * 60 };
