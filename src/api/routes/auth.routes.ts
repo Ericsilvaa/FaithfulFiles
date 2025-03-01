@@ -3,7 +3,7 @@ import PostgresStrategy from "../../database/strategies/postgres/postgres.strate
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import AuthController from "../controllers/auth.controller";
 import { Repository } from "typeorm";
-import { dbDataSourcePostgres } from "../../database/dataSource";
+import { AppDataSource } from "../../database/dataSource";
 import { UserRole } from "../../entities/users/user_roles.entity";
 
 // 'htttp =? /library/books/'
@@ -11,13 +11,10 @@ import { UserRole } from "../../entities/users/user_roles.entity";
 const router = Router();
 
 const repository = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
+  AppDataSource,
   "UserEntity",
 );
-const repositoryRole = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
-  "Role",
-);
+const repositoryRole = PostgresStrategy.createRepository(AppDataSource, "Role");
 const context = new ContextStrategy(new PostgresStrategy(repository));
 const authController = new AuthController(
   context,

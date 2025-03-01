@@ -4,12 +4,12 @@ import Auth from "../middleware/isAuth";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import UserController from "../controllers/user.controller";
-import { dbDataSourcePostgres } from "../../database/dataSource";
+import { AppDataSource } from "../../database/dataSource";
 
 const router = Router();
 
 const repository = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
+  AppDataSource,
   "UserEntity",
 );
 const context = new ContextStrategy(new PostgresStrategy(repository));

@@ -7,8 +7,8 @@ import {
   Repository,
   UpdateResult,
 } from "typeorm";
-import { dbDataSourcePostgres } from "../../dataSource";
 import { Book } from "../../../entities/books/books.entity";
+import { AppDataSource } from "../../dataSource";
 
 export default class PostgresStrategy {
   private repository: Repository<ObjectLiteral>;
@@ -19,10 +19,15 @@ export default class PostgresStrategy {
 
   static async connect() {
     try {
-      const connection = await dbDataSourcePostgres.initialize();
+      const connection = await AppDataSource.initialize();
 
       if (!connection.isInitialized)
         throw new Error("Error initial database. connection");
+      console.log("✅ Database connected!");
+      console.log(
+        "📦 Entities loaded:",
+        AppDataSource.entityMetadatas.map((e) => e.name),
+      );
       return connection;
     } catch (error) {
       console.log(error);

@@ -5,12 +5,12 @@ import { roles } from "../middleware/roles";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import PublisherController from "../controllers/publisher.controller";
-import { dbDataSourcePostgres } from "../../database/dataSource";
+import { AppDataSource } from "../../database/dataSource";
 
 const router = Router();
 
 const repository = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
+  AppDataSource,
   "Publisher",
 );
 const context = new ContextStrategy(new PostgresStrategy(repository));

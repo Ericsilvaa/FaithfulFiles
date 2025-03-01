@@ -5,14 +5,11 @@ import { roles } from "../middleware/roles";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import RoleController from "../controllers/role.controller";
-import { dbDataSourcePostgres } from "../../database/dataSource";
+import { AppDataSource } from "../../database/dataSource";
 
 const router = Router();
 
-const repository = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
-  "Role",
-);
+const repository = PostgresStrategy.createRepository(AppDataSource, "Role");
 const context = new ContextStrategy(new PostgresStrategy(repository));
 const roleController = new RoleController(context);
 

@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import ContextStrategy from "../../../database/strategies/base/context.strategy";
 import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy";
-import { dbDataSourcePostgres } from "../../../database/dataSource";
+import { AppDataSource } from "../../../database/dataSource";
 
 const MOCK_PERMISSIONS = {
   permission_id: 2,
@@ -14,7 +14,7 @@ describe("Permissions Controller", () => {
   beforeAll(async () => {
     connection = (await PostgresStrategy.connect()) as DataSource;
     const repository = PostgresStrategy.createRepository(
-      dbDataSourcePostgres,
+      AppDataSource,
       "Permissions",
     );
     context = new ContextStrategy(new PostgresStrategy(repository));

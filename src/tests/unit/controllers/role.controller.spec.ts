@@ -1,7 +1,7 @@
 import { DataSource, Repository } from "typeorm";
 import ContextStrategy from "../../../database/strategies/base/context.strategy";
 import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy";
-import { dbDataSourcePostgres } from "../../../database/dataSource";
+import { AppDataSource } from "../../../database/dataSource";
 
 const MOCK_DEFAULT = {
   role_id: 1,
@@ -27,14 +27,11 @@ describe("Role Controller", () => {
 
   beforeAll(async () => {
     connection = (await PostgresStrategy.connect()) as DataSource;
-    const repository = PostgresStrategy.createRepository(
-      dbDataSourcePostgres,
-      "Role",
-    );
+    const repository = PostgresStrategy.createRepository(AppDataSource, "Role");
     context = new ContextStrategy(new PostgresStrategy(repository));
 
     repositoryPermissions = PostgresStrategy.createRepository(
-      dbDataSourcePostgres,
+      AppDataSource,
       "Permissions",
     );
   });

@@ -1,25 +1,20 @@
-import { verify, decode, sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+
+const secretKey = process.env.NODE_ENV_JWT_SECRET_KEY! || "defaultSecret";
 
 export default class TokenValidation {
   static generateToken = ({ email, name }: { email: string; name: string }) => {
-    const secret = process.env.NODE_ENV_JWT_SECRET_KEY!;
-    const timeExpires = "10m";
-
     const payload = {
       email,
       name,
     };
 
-    const options = {
-      expiresIn: timeExpires,
-    };
+    const options = { expiresIn: 60 * 60 };
 
-    return sign(payload, secret, options);
+    return jwt.sign(payload, secretKey, options);
   };
 
   static validateToken(token: string) {
-    const secret = process.env.NODE_ENV_JWT_SECRET_KEY!;
-
-    return verify(token, secret);
+    return jwt.verify(token, secretKey);
   }
 }

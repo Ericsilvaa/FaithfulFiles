@@ -2,7 +2,7 @@ import express from "express";
 
 import Auth from "../middleware/isAuth";
 import { roles } from "../middleware/roles";
-import { dbDataSourcePostgres } from "../../database/dataSource";
+import { AppDataSource } from "../../database/dataSource";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import BookController from "../controllers/book.controller";
@@ -10,20 +10,17 @@ import BookController from "../controllers/book.controller";
 // 'htttp =? /library/books/'
 const router = express.Router();
 
-const repository = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
-  "Book",
-);
+const repository = PostgresStrategy.createRepository(AppDataSource, "Book");
 const repositoryAuthor = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
+  AppDataSource,
   "Author",
 );
 const repositoryPublisher = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
+  AppDataSource,
   "Publisher",
 );
 const repositoryUser = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
+  AppDataSource,
   "UserEntity",
 );
 const context = new ContextStrategy(new PostgresStrategy(repository));

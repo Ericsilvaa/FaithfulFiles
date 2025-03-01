@@ -1,4 +1,4 @@
-import { dbDataSourcePostgres } from "../../../database/dataSource";
+import { AppDataSource } from "../../../database/dataSource";
 import ContextStrategy from "../../../database/strategies/base/context.strategy";
 import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy";
 import { Author } from "../../../entities/books/authors.entity";
@@ -11,7 +11,7 @@ import { Category } from "../../../entities/books/categories.entity";
 import { Publisher } from "../../../entities/books/publishers.entity";
 
 const repository = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
+  AppDataSource,
   "UserEntity",
 );
 const contextdb = new ContextStrategy(new PostgresStrategy(repository));

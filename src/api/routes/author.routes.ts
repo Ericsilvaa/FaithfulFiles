@@ -2,7 +2,7 @@ import express, { Router } from "express";
 
 import Auth from "../middleware/isAuth";
 import { roles } from "../middleware/roles";
-import { dbDataSourcePostgres } from "../../database/dataSource";
+import { AppDataSource } from "../../database/dataSource";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import AuthorController from "../controllers/author.controller";
@@ -10,13 +10,10 @@ import AuthorController from "../controllers/author.controller";
 // 'htttp =? /library/author'
 const router = express.Router();
 
-const repository = PostgresStrategy.createRepository(
-  dbDataSourcePostgres,
-  "Author",
-);
+const repository = PostgresStrategy.createRepository(AppDataSource, "Author");
 const context = new ContextStrategy(new PostgresStrategy(repository));
 const authorController = new AuthorController(context);
-// const repositoryRole = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Role')
+// const repositoryRole = PostgresStrategy.createRepository(AppDataSource, 'Role')
 // (repositoryRole as Repository<Role>)
 
 router.use(Auth.isMember, roles(["admin"]));
