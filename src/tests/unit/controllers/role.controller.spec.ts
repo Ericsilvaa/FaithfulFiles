@@ -25,20 +25,20 @@ describe("Role Controller", () => {
   let context: ContextStrategy;
   let repositoryPermissions: Repository<Permissions>;
 
-  beforeAll(async () => {
-    connection = (await PostgresStrategy.connect()) as DataSource;
-    const repository = PostgresStrategy.createRepository(AppDataSource, "Role");
-    context = new ContextStrategy(new PostgresStrategy(repository));
+  // beforeAll(async () => {
+  //   connection = (await PostgresStrategy.connect()) as DataSource;
+  //   const repository = PostgresStrategy.createRepository(AppDataSource, "Role");
+  //   context = new ContextStrategy(new PostgresStrategy(repository));
 
-    repositoryPermissions = PostgresStrategy.createRepository(
-      AppDataSource,
-      "Permissions",
-    );
-  });
+  //   repositoryPermissions = PostgresStrategy.createRepository(
+  //     AppDataSource,
+  //     "Permissions",
+  //   );
+  // });
 
-  afterAll(async () => {
-    await connection.destroy();
-  });
+  // afterAll(async () => {
+  //   await connection.destroy();
+  // });
 
   // test('#Create Role, you should create a new role', async () => {
 
