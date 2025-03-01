@@ -1,42 +1,47 @@
-import { DataSource, Repository } from "typeorm"
-import ContextStrategy from "../../../database/strategies/base/context.strategy"
-import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy"
-import { dbDataSourcePostgres } from "../../../database/db/dataSource"
-
+import { DataSource, Repository } from "typeorm";
+import ContextStrategy from "../../../database/strategies/base/context.strategy";
+import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy";
+import { dbDataSourcePostgres } from "../../../database/dataSource";
 
 const MOCK_DEFAULT = {
   role_id: 1,
-  name: 'default'
-}
+  name: "default",
+};
 
 const MOCK_ADMIN = {
   id: 0,
-  name: 'admin',
-  users: []
-}
+  name: "admin",
+  users: [],
+};
 
 const MOCK_OWNER = {
   id: 3,
-  name: 'owner',
-  users: []
-}
+  name: "owner",
+  users: [],
+};
 
-describe('Role Controller', () => {
-  let connection: DataSource
-  let context: ContextStrategy
-  let repositoryPermissions: Repository<Permissions>
+describe("Role Controller", () => {
+  let connection: DataSource;
+  let context: ContextStrategy;
+  let repositoryPermissions: Repository<Permissions>;
 
   beforeAll(async () => {
-    connection = await PostgresStrategy.connect() as DataSource
-    const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Role')
-    context = new ContextStrategy(new PostgresStrategy(repository))
+    connection = (await PostgresStrategy.connect()) as DataSource;
+    const repository = PostgresStrategy.createRepository(
+      dbDataSourcePostgres,
+      "Role",
+    );
+    context = new ContextStrategy(new PostgresStrategy(repository));
 
-    repositoryPermissions = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Permissions')
-  })
+    repositoryPermissions = PostgresStrategy.createRepository(
+      dbDataSourcePostgres,
+      "Permissions",
+    );
+  });
 
   afterAll(async () => {
-    await connection.destroy()
-  })
+    await connection.destroy();
+  });
 
   // test('#Create Role, you should create a new role', async () => {
 
@@ -49,7 +54,6 @@ describe('Role Controller', () => {
 
   //   const newRole = Role.createRole(MOCK_OWNER)
   //   const result = await context.save(newRole)
-
 
   //   expect(result).toEqual(expected)
   // })
@@ -84,7 +88,6 @@ describe('Role Controller', () => {
 
   //   const permissions = await repositoryPermissions.findOne({ where: { name: 'READ' } })
 
-
   //   const updateRole = new Role(name)
   //   await context.update(role_id, updateRole)
 
@@ -99,7 +102,6 @@ describe('Role Controller', () => {
 
   //   expect(result).toEqual(expected)
   // })
-
 
   // test('#Create Role with Permission Default', async () => {
   //   const role = 'default'
@@ -175,6 +177,4 @@ describe('Role Controller', () => {
   //     // expect(result).toEqual(expected)
 
   //   })
-})
-
-
+});

@@ -22,10 +22,10 @@ export default class Auth {
     }
 
     try {
-      TokenValidation.validateToken(token)
+      TokenValidation.validateToken(token);
 
-      const { email, username } = decode(token) as JwtPayload
-      req.user = { email, username }
+      const { email, name } = decode(token) as JwtPayload;
+      req.user = { email, name };
 
       return next();
     } catch (error) {

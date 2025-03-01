@@ -1,25 +1,28 @@
-import { DataSource } from "typeorm"
-import ContextStrategy from "../../../database/strategies/base/context.strategy"
-import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy"
-import { dbDataSourcePostgres } from "../../../database/db/dataSource"
+import { DataSource } from "typeorm";
+import ContextStrategy from "../../../database/strategies/base/context.strategy";
+import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy";
+import { dbDataSourcePostgres } from "../../../database/dataSource";
 
 const MOCK_PERMISSIONS = {
   permission_id: 2,
-  name: 'UPDATE'
-}
+  name: "UPDATE",
+};
 
-describe('Permissions Controller', () => {
-  let connection: DataSource
-  let context: ContextStrategy
+describe("Permissions Controller", () => {
+  let connection: DataSource;
+  let context: ContextStrategy;
   beforeAll(async () => {
-    connection = await PostgresStrategy.connect() as DataSource
-    const repository = PostgresStrategy.createRepository(dbDataSourcePostgres, 'Permissions')
-    context = new ContextStrategy(new PostgresStrategy(repository))
-  })
+    connection = (await PostgresStrategy.connect()) as DataSource;
+    const repository = PostgresStrategy.createRepository(
+      dbDataSourcePostgres,
+      "Permissions",
+    );
+    context = new ContextStrategy(new PostgresStrategy(repository));
+  });
 
   afterAll(async () => {
-    await connection.destroy()
-  })
+    await connection.destroy();
+  });
 
   // test('#Create Permissions, you should create a new Permissions', async () => {
   //   const { name } = MOCK_PERMISSIONS
@@ -32,7 +35,6 @@ describe('Permissions Controller', () => {
 
   //   const newRole = new Permissions(name)
   //   const result = await context.create(newRole)
-
 
   //   expect(result).toEqual(expected)
 
@@ -102,7 +104,4 @@ describe('Permissions Controller', () => {
 
   //   expect(result).toEqual(expected)
   // })
-
-})
-
-
+});

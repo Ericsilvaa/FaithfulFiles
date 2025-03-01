@@ -1,4 +1,4 @@
-import { dbDataSourcePostgres } from "../../../database/db/dataSource";
+import { dbDataSourcePostgres } from "../../../database/dataSource";
 import ContextStrategy from "../../../database/strategies/base/context.strategy";
 import PostgresStrategy from "../../../database/strategies/postgres/postgres.strategy";
 import { Author } from "../../../entities/books/authors.entity";

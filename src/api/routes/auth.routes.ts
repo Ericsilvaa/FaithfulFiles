@@ -3,7 +3,7 @@ import PostgresStrategy from "../../database/strategies/postgres/postgres.strate
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import AuthController from "../controllers/auth.controller";
 import { Repository } from "typeorm";
-import { dbDataSourcePostgres } from "../../database/db/dataSource";
+import { dbDataSourcePostgres } from "../../database/dataSource";
 import { UserRole } from "../../entities/users/user_roles.entity";
 
 // 'htttp =? /library/books/'

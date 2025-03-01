@@ -1,4 +1,4 @@
-import { dbDataSourcePostgres } from "../database/db/dataSource";
+import { dbDataSourcePostgres } from "../database/dataSource";
 import { Book } from "../entities/books/books.entity";
 import { RoleEntity } from "../entities/permissions/roles.entity";
 

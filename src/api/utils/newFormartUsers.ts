@@ -3,7 +3,7 @@ import { User } from "../../entities/users/users.entity";
 function newFormatUsers(users: User[]) {
   const newFormat = users.map((user) => ({
     id: user.id,
-    username: user.name,
+    name: user.name,
     email: user.email,
     role: user.role,
   }));

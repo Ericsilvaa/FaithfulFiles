@@ -6,7 +6,7 @@ import { Repository } from "typeorm";
 import PostgresStrategy from "../../database/strategies/postgres/postgres.strategy";
 import ContextStrategy from "../../database/strategies/base/context.strategy";
 import AdminController from "../controllers/admin.controller";
-import { dbDataSourcePostgres } from "../../database/db/dataSource";
+import { dbDataSourcePostgres } from "../../database/dataSource";
 import { UserRole } from "../../entities/users/user_roles.entity";
 
 const router = Router();

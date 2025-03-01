@@ -1,17 +1,19 @@
-import { IAddress } from "../api/interfaces/IAddress"
+import { IAddress } from "../api/interfaces/IAddress";
+import { User } from "../entities/users/users.entity";
+
+type UserLogin = Pick<User, "email" | "name">;
+
+type UserLogged = {
+  id: string | number;
+  email: string;
+  address: IAddress | undefined;
+};
 
 interface UserRequest {
-  user: {
-    email: string
-    username: string
-  },
-  userLogged: {
-    id: string | number
-    email: string,
-    address: IAddress | undefined
-  }
+  user: UserLogin;
+  userLogged: UserLogged;
 }
 
-declare module 'express-serve-static-core' {
-  interface Request extends UserRequest { }
+declare module "express-serve-static-core" {
+  interface Request extends UserRequest {}
 }

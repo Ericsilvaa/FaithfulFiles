@@ -7,8 +7,7 @@ import {
   Repository,
   UpdateResult,
 } from "typeorm";
-import { dbDataSourcePostgres } from "../../db/dataSource";
-import { RepositoryString } from "../../db/interfaces/IRepositoryString";
+import { dbDataSourcePostgres } from "../../dataSource";
 import { Book } from "../../../entities/books/books.entity";
 
 export default class PostgresStrategy {
@@ -32,7 +31,7 @@ export default class PostgresStrategy {
 
   static createRepository<T extends ObjectLiteral>(
     connection: DataSource,
-    entity: RepositoryString,
+    entity: string,
   ): Repository<T> {
     const repository = connection.getRepository<T>(entity as EntityTarget<T>);
     return repository;

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { dbDataSourcePostgres } from "../../database/db/dataSource";
+import { dbDataSourcePostgres } from "../../database/dataSource";
 import { User } from "../../entities/users/users.entity";
 
 type RoleString = "default" | "admin" | "owner";
